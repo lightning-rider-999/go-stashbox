@@ -1,0 +1,12 @@
+# Build output (Taskfile `build` target)
+/bin/
+
+# IDE / editor
+/.idea/
+*.swp
+
+# Local environment
+.env
+
+# Planning docs — the superpowers spec/plan/tasks are local working notes, never tracked.
+/docs/superpowers/
