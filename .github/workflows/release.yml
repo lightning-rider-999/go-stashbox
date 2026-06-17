@@ -1,0 +1,94 @@
+# Release pipeline: a pushed `v*` tag builds the cross-platform `stashbox`
+# binaries with GoReleaser and publishes them on a GitHub Release in this repo.
+# The release is created with the workflow-scoped GITHUB_TOKEN, so no external
+# credentials are needed. Build/config live in .goreleaser.yaml.
+#
+# The same gates that protect `main` (test -race, lint, govulncheck) run as a
+# `check` job that the release blocks on, so a tag can never publish artifacts
+# that would have failed CI.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+# Never cancel an in-progress release: a half-published GitHub Release (some
+# assets uploaded, some not) is worse than waiting.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: check (test -race, lint, govulncheck)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          # Reads the `go 1.26.x` directive; GOTOOLCHAIN=auto fetches it if the
+          # runner ships an older toolchain.
+          go-version-file: go.mod
+          cache: true
+
+      - name: Install Task
+        uses: arduino/setup-task@b91d5d2c96a56797b48ac1e0e89220bf64044611 # v2.0.0
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install golangci-lint
+        # v9 is the action major that targets golangci-lint v2.x; `install-only`
+        # puts the binary on PATH so `task check` can run it.
+        uses: golangci/golangci-lint-action@82606bf257cbaff209d206a39f5134f0cfbfd2ee # v9.2.1
+        with:
+          version: v2.12.2
+          install-mode: binary
+          install-only: true
+
+      - name: task check
+        # Full quality suite: gofmt, build, vet, test -race, lint, tidy, codegen
+        # freshness. No live stash-box env vars are set and no `integration` build
+        # tag is passed, so this runs the unit/offline gates only.
+        run: task check
+
+      - name: govulncheck
+        # Pinned (not @latest) so the scanner version is reproducible.
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.4.0 ./...
+
+  goreleaser:
+    name: goreleaser
+    needs: [check]
+    runs-on: ubuntu-latest
+    permissions:
+      # Required for GoReleaser to create the GitHub Release and upload assets.
+      contents: write
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          # GoReleaser needs the full history (and the pushed tag) to build the
+          # changelog and resolve the version.
+          fetch-depth: 0
+          # GoReleaser authenticates with the GITHUB_TOKEN env var below, not the
+          # git credential helper, so the persisted checkout token is unneeded.
+          persist-credentials: false
+
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          # Reads the `go 1.26.x` directive; GOTOOLCHAIN=auto fetches it if the
+          # runner ships an older toolchain.
+          go-version-file: go.mod
+          cache: true
+
+      - name: GoReleaser
+        uses: goreleaser/goreleaser-action@5daf1e915a5f0af01ddbcd89a43b8061ff4f1a89 # v7.2.2
+        with:
+          version: "~> v2"
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

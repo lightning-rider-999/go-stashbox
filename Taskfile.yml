@@ -60,7 +60,7 @@ tasks:
     cmds:
       # Pinned, not @latest: a reproducible, auditable scanner version. Bump
       # deliberately rather than letting the tool float under you.
-      - go run golang.org/x/vuln/cmd/govulncheck@v1.1.4 ./...
+      - go run golang.org/x/vuln/cmd/govulncheck@v1.4.0 ./...
 
   release-check:
     desc: Validate the GoReleaser config (.goreleaser.yaml) without building anything.
