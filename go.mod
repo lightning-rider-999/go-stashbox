@@ -2,7 +2,15 @@ module github.com/lightning-rider-999/go-stashbox
 
 go 1.26.4
 
-require github.com/trackness/graphql-opgen v0.1.1
+require (
+	github.com/spf13/cobra v1.10.2
+	github.com/trackness/graphql-opgen v0.1.1
+)
+
+require (
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/spf13/pflag v1.0.9 // indirect
+)
 
 require (
 	github.com/Khan/genqlient v0.8.1
