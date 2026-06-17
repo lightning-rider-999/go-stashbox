@@ -1,0 +1,2193 @@
+{
+  "schemaVersion": "v0.10.0",
+  "commands": {
+    "FindDraft": {
+      "field": "findDraft",
+      "kind": "query",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID!",
+          "required": true
+        }
+      ],
+      "returnType": "Draft",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindDrafts": {
+      "field": "findDrafts",
+      "kind": "query",
+      "returnType": "Draft",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "FindEdit": {
+      "field": "findEdit",
+      "kind": "query",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID!",
+          "required": true
+        }
+      ],
+      "returnType": "Edit",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindPerformer": {
+      "field": "findPerformer",
+      "kind": "query",
+      "description": "Find a performer by ID",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID!",
+          "required": true
+        }
+      ],
+      "returnType": "Performer",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindScene": {
+      "field": "findScene",
+      "kind": "query",
+      "description": "Find a scene by ID",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID!",
+          "required": true
+        }
+      ],
+      "returnType": "Scene",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindScenesBySceneFingerprints": {
+      "field": "findScenesBySceneFingerprints",
+      "kind": "query",
+      "description": "Finds scenes that match a list of hashes",
+      "args": [
+        {
+          "name": "fingerprints",
+          "type": "[[FingerprintQueryInput!]!]!",
+          "required": true
+        }
+      ],
+      "returnType": "Scene",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "FindSite": {
+      "field": "findSite",
+      "kind": "query",
+      "description": "Find an external site by ID",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID!",
+          "required": true
+        }
+      ],
+      "returnType": "Site",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindSiteCategory": {
+      "field": "findSiteCategory",
+      "kind": "query",
+      "args": [
+        {
+          "name": "id",
+          "type": "Int!",
+          "required": true
+        }
+      ],
+      "returnType": "SiteCategory",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindStudio": {
+      "field": "findStudio",
+      "kind": "query",
+      "description": "Find a studio by ID or name",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "required": false
+        }
+      ],
+      "returnType": "Studio",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindTag": {
+      "field": "findTag",
+      "kind": "query",
+      "description": "Find a tag by ID or name",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "required": false
+        }
+      ],
+      "returnType": "Tag",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindTagCategory": {
+      "field": "findTagCategory",
+      "kind": "query",
+      "description": "Find a tag category by ID",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID!",
+          "required": true
+        }
+      ],
+      "returnType": "TagCategory",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindTagOrAlias": {
+      "field": "findTagOrAlias",
+      "kind": "query",
+      "description": "Find a tag with a matching name or alias",
+      "args": [
+        {
+          "name": "name",
+          "type": "String!",
+          "required": true
+        }
+      ],
+      "returnType": "Tag",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FindUser": {
+      "field": "findUser",
+      "kind": "query",
+      "description": "Find user by ID or username",
+      "args": [
+        {
+          "name": "id",
+          "type": "ID",
+          "required": false
+        },
+        {
+          "name": "username",
+          "type": "String",
+          "required": false
+        }
+      ],
+      "returnType": "User",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "FingerprintClusters": {
+      "field": "fingerprintClusters",
+      "kind": "query",
+      "description": "Returns phash clusters for a scene",
+      "args": [
+        {
+          "name": "input",
+          "type": "FingerprintClustersInput!",
+          "required": true
+        }
+      ],
+      "returnType": "FingerprintClustersResult",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "GetConfig": {
+      "field": "getConfig",
+      "kind": "query",
+      "returnType": "StashBoxConfig",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "GetUnreadNotificationCount": {
+      "field": "getUnreadNotificationCount",
+      "kind": "query",
+      "returnType": "UnreadNotificationCount",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "Me": {
+      "field": "me",
+      "kind": "query",
+      "description": "Returns currently authenticated user",
+      "returnType": "User",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault",
+        "not-found"
+      ]
+    },
+    "QueryEdits": {
+      "field": "queryEdits",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "EditQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryEditsResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryExistingPerformer": {
+      "field": "queryExistingPerformer",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "QueryExistingPerformerInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryExistingPerformerResult",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryExistingScene": {
+      "field": "queryExistingScene",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "QueryExistingSceneInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryExistingSceneResult",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryModAudits": {
+      "field": "queryModAudits",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "ModAuditQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryModAuditsResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryNotifications": {
+      "field": "queryNotifications",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "QueryNotificationsInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryNotificationsResult",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryPerformers": {
+      "field": "queryPerformers",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "PerformerQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryPerformersResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryScenes": {
+      "field": "queryScenes",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "SceneQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryScenesResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QuerySiteCategories": {
+      "field": "querySiteCategories",
+      "kind": "query",
+      "returnType": "QuerySiteCategoriesResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QuerySites": {
+      "field": "querySites",
+      "kind": "query",
+      "returnType": "QuerySitesResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryStudios": {
+      "field": "queryStudios",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "StudioQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryStudiosResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryTagCategories": {
+      "field": "queryTagCategories",
+      "kind": "query",
+      "returnType": "QueryTagCategoriesResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryTags": {
+      "field": "queryTags",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "TagQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryTagsResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "QueryUsers": {
+      "field": "queryUsers",
+      "kind": "query",
+      "args": [
+        {
+          "name": "input",
+          "type": "UserQueryInput!",
+          "required": true
+        }
+      ],
+      "returnType": "QueryUsersResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "SearchPerformer": {
+      "field": "searchPerformer",
+      "kind": "query",
+      "args": [
+        {
+          "name": "term",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false
+        }
+      ],
+      "returnType": "Performer",
+      "deprecated": "Use searchPerformers",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "SearchPerformers": {
+      "field": "searchPerformers",
+      "kind": "query",
+      "args": [
+        {
+          "name": "term",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false
+        },
+        {
+          "name": "page",
+          "type": "Int",
+          "required": false
+        },
+        {
+          "name": "per_page",
+          "type": "Int",
+          "required": false
+        },
+        {
+          "name": "filter",
+          "type": "PerformerSearchFilter",
+          "required": false
+        }
+      ],
+      "returnType": "QueryPerformersResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "SearchScene": {
+      "field": "searchScene",
+      "kind": "query",
+      "args": [
+        {
+          "name": "term",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false
+        }
+      ],
+      "returnType": "Scene",
+      "deprecated": "Use searchScenes",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "SearchScenes": {
+      "field": "searchScenes",
+      "kind": "query",
+      "args": [
+        {
+          "name": "term",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false
+        },
+        {
+          "name": "page",
+          "type": "Int",
+          "required": false
+        },
+        {
+          "name": "per_page",
+          "type": "Int",
+          "required": false
+        }
+      ],
+      "returnType": "QueryScenesResultType",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "SearchStudio": {
+      "field": "searchStudio",
+      "kind": "query",
+      "args": [
+        {
+          "name": "term",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false
+        }
+      ],
+      "returnType": "Studio",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "SearchTag": {
+      "field": "searchTag",
+      "kind": "query",
+      "args": [
+        {
+          "name": "term",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false
+        }
+      ],
+      "returnType": "Tag",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    },
+    "Version": {
+      "field": "version",
+      "kind": "query",
+      "returnType": "Version",
+      "exitCodes": [
+        "ok",
+        "usage",
+        "auth",
+        "transport",
+        "validation",
+        "server-fault"
+      ]
+    }
+  },
+  "$defs": {
+    "BodyModificationCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "location",
+          "type": "String",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "required": false
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "BreastTypeCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "BreastTypeEnum",
+          "required": false
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "BreastTypeEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "NATURAL"
+        },
+        {
+          "value": "FAKE"
+        },
+        {
+          "value": "NA"
+        }
+      ]
+    },
+    "CriterionModifier": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "EQUALS",
+          "description": "="
+        },
+        {
+          "value": "NOT_EQUALS",
+          "description": "!="
+        },
+        {
+          "value": "GREATER_THAN",
+          "description": "\u003e"
+        },
+        {
+          "value": "LESS_THAN",
+          "description": "\u003c"
+        },
+        {
+          "value": "IS_NULL",
+          "description": "IS NULL"
+        },
+        {
+          "value": "NOT_NULL",
+          "description": "IS NOT NULL"
+        },
+        {
+          "value": "INCLUDES_ALL",
+          "description": "INCLUDES ALL"
+        },
+        {
+          "value": "INCLUDES"
+        },
+        {
+          "value": "EXCLUDES"
+        }
+      ]
+    },
+    "DateCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "Date!",
+          "required": true
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "EditQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "ID",
+          "required": false,
+          "description": "Filter by user id"
+        },
+        {
+          "name": "status",
+          "type": "VoteStatusEnum",
+          "required": false,
+          "description": "Filter by status"
+        },
+        {
+          "name": "operation",
+          "type": "OperationEnum",
+          "required": false,
+          "description": "Filter by operation"
+        },
+        {
+          "name": "vote_count",
+          "type": "IntCriterionInput",
+          "required": false,
+          "description": "Filter by vote count"
+        },
+        {
+          "name": "applied",
+          "type": "Boolean",
+          "required": false,
+          "description": "Filter by applied status"
+        },
+        {
+          "name": "target_type",
+          "type": "TargetTypeEnum",
+          "required": false,
+          "description": "Filter by target type"
+        },
+        {
+          "name": "target_id",
+          "type": "ID",
+          "required": false,
+          "description": "Filter by target id"
+        },
+        {
+          "name": "is_favorite",
+          "type": "Boolean",
+          "required": false,
+          "description": "Filter by favorite status"
+        },
+        {
+          "name": "voted",
+          "type": "UserVotedFilterEnum",
+          "required": false,
+          "description": "Filter by user voted status"
+        },
+        {
+          "name": "is_bot",
+          "type": "Boolean",
+          "required": false,
+          "description": "Filter to bot edits only"
+        },
+        {
+          "name": "include_user_submitted",
+          "type": "Boolean",
+          "required": false,
+          "description": "Filter out user's own edits"
+        },
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "direction",
+          "type": "SortDirectionEnum!",
+          "required": false,
+          "default": "DESC"
+        },
+        {
+          "name": "sort",
+          "type": "EditSortEnum!",
+          "required": false,
+          "default": "CREATED_AT"
+        }
+      ]
+    },
+    "EditSortEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "CREATED_AT"
+        },
+        {
+          "value": "UPDATED_AT"
+        },
+        {
+          "value": "CLOSED_AT"
+        }
+      ]
+    },
+    "EthnicityFilterEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "UNKNOWN"
+        },
+        {
+          "value": "CAUCASIAN"
+        },
+        {
+          "value": "BLACK"
+        },
+        {
+          "value": "ASIAN"
+        },
+        {
+          "value": "INDIAN"
+        },
+        {
+          "value": "LATIN"
+        },
+        {
+          "value": "MIDDLE_EASTERN"
+        },
+        {
+          "value": "MIXED"
+        },
+        {
+          "value": "OTHER"
+        }
+      ]
+    },
+    "EyeColorCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "EyeColorEnum",
+          "required": false
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "EyeColorEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "BLUE"
+        },
+        {
+          "value": "BROWN"
+        },
+        {
+          "value": "GREY"
+        },
+        {
+          "value": "GREEN"
+        },
+        {
+          "value": "HAZEL"
+        },
+        {
+          "value": "RED"
+        }
+      ]
+    },
+    "FavoriteFilter": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "PERFORMER"
+        },
+        {
+          "value": "STUDIO"
+        },
+        {
+          "value": "ALL"
+        }
+      ]
+    },
+    "FingerprintAlgorithm": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "MD5"
+        },
+        {
+          "value": "OSHASH"
+        },
+        {
+          "value": "PHASH"
+        }
+      ]
+    },
+    "FingerprintClustersInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "scene_id",
+          "type": "ID!",
+          "required": true
+        },
+        {
+          "name": "distance",
+          "type": "Int!",
+          "required": true
+        }
+      ]
+    },
+    "FingerprintInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "user_ids",
+          "type": "[ID!]",
+          "required": false,
+          "description": "assumes current user if omitted. Ignored for non-modify Users"
+        },
+        {
+          "name": "hash",
+          "type": "FingerprintHash!",
+          "required": true
+        },
+        {
+          "name": "algorithm",
+          "type": "FingerprintAlgorithm!",
+          "required": true
+        },
+        {
+          "name": "duration",
+          "type": "Int!",
+          "required": true
+        }
+      ]
+    },
+    "FingerprintQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "hash",
+          "type": "FingerprintHash!",
+          "required": true
+        },
+        {
+          "name": "algorithm",
+          "type": "FingerprintAlgorithm!",
+          "required": true
+        }
+      ]
+    },
+    "GenderEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "MALE"
+        },
+        {
+          "value": "FEMALE"
+        },
+        {
+          "value": "TRANSGENDER_MALE"
+        },
+        {
+          "value": "TRANSGENDER_FEMALE"
+        },
+        {
+          "value": "INTERSEX"
+        },
+        {
+          "value": "NON_BINARY"
+        }
+      ]
+    },
+    "GenderFilterEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "UNKNOWN"
+        },
+        {
+          "value": "MALE"
+        },
+        {
+          "value": "FEMALE"
+        },
+        {
+          "value": "TRANSGENDER_MALE"
+        },
+        {
+          "value": "TRANSGENDER_FEMALE"
+        },
+        {
+          "value": "INTERSEX"
+        },
+        {
+          "value": "NON_BINARY"
+        }
+      ]
+    },
+    "HairColorCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "HairColorEnum",
+          "required": false
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "HairColorEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "BLONDE"
+        },
+        {
+          "value": "BRUNETTE"
+        },
+        {
+          "value": "BLACK"
+        },
+        {
+          "value": "RED"
+        },
+        {
+          "value": "AUBURN"
+        },
+        {
+          "value": "GREY"
+        },
+        {
+          "value": "BALD"
+        },
+        {
+          "value": "VARIOUS"
+        },
+        {
+          "value": "WHITE"
+        },
+        {
+          "value": "OTHER"
+        }
+      ]
+    },
+    "IDCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "[ID!]!",
+          "required": true
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "IntCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "Int!",
+          "required": true
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "ModAuditActionEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "EDIT_DELETE"
+        },
+        {
+          "value": "EDIT_AMENDMENT"
+        },
+        {
+          "value": "EDIT_COMMENT_UPDATE"
+        },
+        {
+          "value": "EDIT_COMMENT_HIDE"
+        }
+      ]
+    },
+    "ModAuditQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "action",
+          "type": "ModAuditActionEnum",
+          "required": false
+        },
+        {
+          "name": "user_id",
+          "type": "ID",
+          "required": false
+        }
+      ]
+    },
+    "MultiIDCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "[ID!]",
+          "required": false
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "MultiStringCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "[String!]!",
+          "required": true
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "NotificationEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "FAVORITE_PERFORMER_SCENE"
+        },
+        {
+          "value": "FAVORITE_PERFORMER_EDIT"
+        },
+        {
+          "value": "FAVORITE_STUDIO_SCENE"
+        },
+        {
+          "value": "FAVORITE_STUDIO_EDIT"
+        },
+        {
+          "value": "COMMENT_OWN_EDIT"
+        },
+        {
+          "value": "DOWNVOTE_OWN_EDIT"
+        },
+        {
+          "value": "FAILED_OWN_EDIT"
+        },
+        {
+          "value": "COMMENT_COMMENTED_EDIT"
+        },
+        {
+          "value": "COMMENT_VOTED_EDIT"
+        },
+        {
+          "value": "UPDATED_EDIT"
+        },
+        {
+          "value": "FINGERPRINTED_SCENE_EDIT"
+        },
+        {
+          "value": "FINGERPRINT_MOVED"
+        }
+      ]
+    },
+    "OperationEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "CREATE"
+        },
+        {
+          "value": "MODIFY"
+        },
+        {
+          "value": "DESTROY"
+        },
+        {
+          "value": "MERGE"
+        }
+      ]
+    },
+    "PerformerQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "names",
+          "type": "String",
+          "required": false,
+          "description": "Searches name and disambiguation - assumes like query unless quoted"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "required": false,
+          "description": "Searches name only - assumes like query unless quoted"
+        },
+        {
+          "name": "alias",
+          "type": "String",
+          "required": false,
+          "description": "Search aliases only - assumes like query unless quoted"
+        },
+        {
+          "name": "disambiguation",
+          "type": "StringCriterionInput",
+          "required": false
+        },
+        {
+          "name": "gender",
+          "type": "GenderFilterEnum",
+          "required": false
+        },
+        {
+          "name": "url",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search urls - assumes like query unless quoted"
+        },
+        {
+          "name": "birthdate",
+          "type": "DateCriterionInput",
+          "required": false
+        },
+        {
+          "name": "deathdate",
+          "type": "DateCriterionInput",
+          "required": false
+        },
+        {
+          "name": "birth_year",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "age",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "ethnicity",
+          "type": "EthnicityFilterEnum",
+          "required": false
+        },
+        {
+          "name": "country",
+          "type": "StringCriterionInput",
+          "required": false
+        },
+        {
+          "name": "eye_color",
+          "type": "EyeColorCriterionInput",
+          "required": false
+        },
+        {
+          "name": "hair_color",
+          "type": "HairColorCriterionInput",
+          "required": false
+        },
+        {
+          "name": "height",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "cup_size",
+          "type": "StringCriterionInput",
+          "required": false
+        },
+        {
+          "name": "band_size",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "waist_size",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "hip_size",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "breast_type",
+          "type": "BreastTypeCriterionInput",
+          "required": false
+        },
+        {
+          "name": "career_start_year",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "career_end_year",
+          "type": "IntCriterionInput",
+          "required": false
+        },
+        {
+          "name": "tattoos",
+          "type": "BodyModificationCriterionInput",
+          "required": false
+        },
+        {
+          "name": "piercings",
+          "type": "BodyModificationCriterionInput",
+          "required": false
+        },
+        {
+          "name": "is_favorite",
+          "type": "Boolean",
+          "required": false,
+          "description": "Filter by performerfavorite status for the current user"
+        },
+        {
+          "name": "performed_with",
+          "type": "ID",
+          "required": false,
+          "description": "Filter by a performer they have performed in scenes with"
+        },
+        {
+          "name": "studio_id",
+          "type": "ID",
+          "required": false,
+          "description": "Filter by a studio"
+        },
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "direction",
+          "type": "SortDirectionEnum!",
+          "required": false,
+          "default": "DESC"
+        },
+        {
+          "name": "sort",
+          "type": "PerformerSortEnum!",
+          "required": false,
+          "default": "CREATED_AT"
+        }
+      ]
+    },
+    "PerformerSearchFilter": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "gender",
+          "type": "GenderEnum",
+          "required": false,
+          "description": "Filter by gender"
+        }
+      ]
+    },
+    "PerformerSortEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "NAME"
+        },
+        {
+          "value": "BIRTHDATE"
+        },
+        {
+          "value": "DEATHDATE"
+        },
+        {
+          "value": "SCENE_COUNT"
+        },
+        {
+          "value": "CAREER_START_YEAR"
+        },
+        {
+          "value": "DEBUT"
+        },
+        {
+          "value": "LAST_SCENE"
+        },
+        {
+          "value": "POPULARITY"
+        },
+        {
+          "value": "CREATED_AT"
+        },
+        {
+          "value": "UPDATED_AT"
+        }
+      ]
+    },
+    "QueryExistingPerformerInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "name",
+          "type": "String",
+          "required": false
+        },
+        {
+          "name": "disambiguation",
+          "type": "String",
+          "required": false
+        },
+        {
+          "name": "urls",
+          "type": "[String!]!",
+          "required": true
+        }
+      ]
+    },
+    "QueryExistingSceneInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "title",
+          "type": "String",
+          "required": false
+        },
+        {
+          "name": "studio_id",
+          "type": "ID",
+          "required": false
+        },
+        {
+          "name": "fingerprints",
+          "type": "[FingerprintInput!]!",
+          "required": true
+        }
+      ]
+    },
+    "QueryNotificationsInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "type",
+          "type": "NotificationEnum",
+          "required": false
+        },
+        {
+          "name": "unread_only",
+          "type": "Boolean",
+          "required": false
+        }
+      ]
+    },
+    "RoleCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "[RoleEnum!]!",
+          "required": true
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "RoleEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "READ"
+        },
+        {
+          "value": "VOTE"
+        },
+        {
+          "value": "EDIT"
+        },
+        {
+          "value": "MODIFY"
+        },
+        {
+          "value": "MODERATE"
+        },
+        {
+          "value": "ADMIN"
+        },
+        {
+          "value": "INVITE",
+          "description": "May generate invites without tokens"
+        },
+        {
+          "value": "MANAGE_INVITES",
+          "description": "May grant and rescind invite tokens and resind invite keys"
+        },
+        {
+          "value": "BOT"
+        },
+        {
+          "value": "READ_ONLY"
+        },
+        {
+          "value": "EDIT_TAGS"
+        }
+      ]
+    },
+    "SceneQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "text",
+          "type": "String",
+          "required": false,
+          "deprecated": "Use `title` instead."
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search title - assumes like query unless quoted"
+        },
+        {
+          "name": "url",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search urls - assumes like query unless quoted"
+        },
+        {
+          "name": "date",
+          "type": "DateCriterionInput",
+          "required": false,
+          "description": "Filter by date"
+        },
+        {
+          "name": "production_date",
+          "type": "DateCriterionInput",
+          "required": false,
+          "description": "Filter by production date"
+        },
+        {
+          "name": "studios",
+          "type": "MultiIDCriterionInput",
+          "required": false,
+          "description": "Filter to only include scenes with this studio"
+        },
+        {
+          "name": "parentStudio",
+          "type": "String",
+          "required": false,
+          "description": "Filter to only include scenes with this studio as primary or parent"
+        },
+        {
+          "name": "tags",
+          "type": "MultiIDCriterionInput",
+          "required": false,
+          "description": "Filter to only include scenes with these tags"
+        },
+        {
+          "name": "performers",
+          "type": "MultiIDCriterionInput",
+          "required": false,
+          "description": "Filter to only include scenes with these performers"
+        },
+        {
+          "name": "alias",
+          "type": "StringCriterionInput",
+          "required": false,
+          "description": "Filter to include scenes with performer appearing as alias"
+        },
+        {
+          "name": "fingerprints",
+          "type": "MultiStringCriterionInput",
+          "required": false,
+          "description": "Filter to only include scenes with these fingerprints"
+        },
+        {
+          "name": "favorites",
+          "type": "FavoriteFilter",
+          "required": false,
+          "description": "Filter by favorited entity"
+        },
+        {
+          "name": "has_fingerprint_submissions",
+          "type": "Boolean",
+          "required": false,
+          "default": "False",
+          "description": "Filter to scenes with fingerprints submitted by the user"
+        },
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "direction",
+          "type": "SortDirectionEnum!",
+          "required": false,
+          "default": "DESC"
+        },
+        {
+          "name": "sort",
+          "type": "SceneSortEnum!",
+          "required": false,
+          "default": "DATE"
+        }
+      ]
+    },
+    "SceneSortEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "TITLE"
+        },
+        {
+          "value": "DATE"
+        },
+        {
+          "value": "DURATION"
+        },
+        {
+          "value": "TRENDING"
+        },
+        {
+          "value": "POPULARITY"
+        },
+        {
+          "value": "CREATED_AT"
+        },
+        {
+          "value": "UPDATED_AT"
+        }
+      ]
+    },
+    "SortDirectionEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "ASC"
+        },
+        {
+          "value": "DESC"
+        }
+      ]
+    },
+    "StringCriterionInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "value",
+          "type": "String!",
+          "required": true
+        },
+        {
+          "name": "modifier",
+          "type": "CriterionModifier!",
+          "required": true
+        }
+      ]
+    },
+    "StudioQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "name",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search name - assumes like query unless quoted"
+        },
+        {
+          "name": "names",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search studio name, aliases and parent studio name - assumes like query unless quoted"
+        },
+        {
+          "name": "url",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search url - assumes like query unless quoted"
+        },
+        {
+          "name": "parent",
+          "type": "IDCriterionInput",
+          "required": false
+        },
+        {
+          "name": "has_parent",
+          "type": "Boolean",
+          "required": false
+        },
+        {
+          "name": "is_favorite",
+          "type": "Boolean",
+          "required": false,
+          "description": "Filter by studio favorite status for the current user"
+        },
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "direction",
+          "type": "SortDirectionEnum!",
+          "required": false,
+          "default": "ASC"
+        },
+        {
+          "name": "sort",
+          "type": "StudioSortEnum!",
+          "required": false,
+          "default": "NAME"
+        }
+      ]
+    },
+    "StudioSortEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "NAME"
+        },
+        {
+          "value": "CREATED_AT"
+        },
+        {
+          "value": "UPDATED_AT"
+        }
+      ]
+    },
+    "TagQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "text",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search name, aliases and description - assumes like query unless quoted"
+        },
+        {
+          "name": "names",
+          "type": "String",
+          "required": false,
+          "description": "Searches name and aliases - assumes like query unless quoted"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search name - assumes like query unless quoted"
+        },
+        {
+          "name": "category_id",
+          "type": "ID",
+          "required": false,
+          "description": "Filter to category ID"
+        },
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        },
+        {
+          "name": "direction",
+          "type": "SortDirectionEnum!",
+          "required": false,
+          "default": "ASC"
+        },
+        {
+          "name": "sort",
+          "type": "TagSortEnum!",
+          "required": false,
+          "default": "NAME"
+        }
+      ]
+    },
+    "TagSortEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "NAME"
+        },
+        {
+          "value": "CREATED_AT"
+        },
+        {
+          "value": "UPDATED_AT"
+        }
+      ]
+    },
+    "TargetTypeEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "SCENE"
+        },
+        {
+          "value": "STUDIO"
+        },
+        {
+          "value": "PERFORMER"
+        },
+        {
+          "value": "TAG"
+        }
+      ]
+    },
+    "UserQueryInput": {
+      "kind": "input",
+      "fields": [
+        {
+          "name": "name",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search user name - assumes like query unless quoted"
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "required": false,
+          "description": "Filter to search email - assumes like query unless quoted"
+        },
+        {
+          "name": "roles",
+          "type": "RoleCriterionInput",
+          "required": false,
+          "description": "Filter by roles"
+        },
+        {
+          "name": "apiKey",
+          "type": "String",
+          "required": false,
+          "description": "Filter by api key"
+        },
+        {
+          "name": "successful_edits",
+          "type": "IntCriterionInput",
+          "required": false,
+          "description": "Filter by successful edits"
+        },
+        {
+          "name": "unsuccessful_edits",
+          "type": "IntCriterionInput",
+          "required": false,
+          "description": "Filter by unsuccessful edits"
+        },
+        {
+          "name": "successful_votes",
+          "type": "IntCriterionInput",
+          "required": false,
+          "description": "Filter by votes on successful edits"
+        },
+        {
+          "name": "unsuccessful_votes",
+          "type": "IntCriterionInput",
+          "required": false,
+          "description": "Filter by votes on unsuccessful edits"
+        },
+        {
+          "name": "api_calls",
+          "type": "IntCriterionInput",
+          "required": false,
+          "description": "Filter by number of API calls"
+        },
+        {
+          "name": "invited_by",
+          "type": "ID",
+          "required": false,
+          "description": "Filter by user that invited"
+        },
+        {
+          "name": "page",
+          "type": "Int!",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "per_page",
+          "type": "Int!",
+          "required": false,
+          "default": "25"
+        }
+      ]
+    },
+    "UserVotedFilterEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "ABSTAIN"
+        },
+        {
+          "value": "ACCEPT"
+        },
+        {
+          "value": "REJECT"
+        },
+        {
+          "value": "NOT_VOTED"
+        }
+      ]
+    },
+    "VoteStatusEnum": {
+      "kind": "enum",
+      "values": [
+        {
+          "value": "ACCEPTED"
+        },
+        {
+          "value": "REJECTED"
+        },
+        {
+          "value": "PENDING"
+        },
+        {
+          "value": "IMMEDIATE_ACCEPTED"
+        },
+        {
+          "value": "IMMEDIATE_REJECTED"
+        },
+        {
+          "value": "FAILED"
+        },
+        {
+          "value": "CANCELED"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,200 @@
+enum OperationEnum {
+    CREATE
+    MODIFY
+    DESTROY
+    MERGE
+}
+
+enum VoteTypeEnum {
+    ABSTAIN
+    ACCEPT
+    REJECT
+    """Immediately accepts the edit - bypassing the vote"""
+    IMMEDIATE_ACCEPT
+    """Immediately rejects the edit - bypassing the vote"""
+    IMMEDIATE_REJECT
+}
+
+enum VoteStatusEnum {
+    ACCEPTED
+    REJECTED
+    PENDING
+    IMMEDIATE_ACCEPTED
+    IMMEDIATE_REJECTED
+    FAILED
+    CANCELED
+}
+
+type EditVote {
+    user: User
+    date: Time!
+    vote: VoteTypeEnum!
+}
+
+type EditComment {
+    id: ID!
+    user: User
+    date: Time!
+    comment: String!
+    """Set when a moderator has edited the comment text"""
+    updated: Time
+    """Whether the comment is hidden from public view. Hidden comments are only returned to moderators."""
+    hidden: Boolean!
+    edit: Edit!
+}
+
+union EditDetails = PerformerEdit | SceneEdit | StudioEdit | TagEdit
+
+enum TargetTypeEnum {
+    SCENE
+    STUDIO
+    PERFORMER
+    TAG
+}
+
+union EditTarget = Performer | Scene | Studio | Tag
+
+type Edit {
+    id: ID!
+    user: User
+    """Object being edited - null if creating a new object"""
+    target: EditTarget
+    target_type: TargetTypeEnum!
+    """Objects to merge with the target. Only applicable to merges"""
+    merge_sources: [EditTarget!]!
+    operation: OperationEnum!
+    bot: Boolean!
+    details: EditDetails
+    """Previous state of fields being modified - null if operation is create or delete."""
+    old_details: EditDetails
+    """Entity specific options"""
+    options: PerformerEditOptions
+    comments: [EditComment!]!
+    votes: [EditVote!]!
+    """ = Accepted - Rejected"""
+    vote_count: Int!
+    """Is the edit considered destructive."""
+    destructive: Boolean!
+    status: VoteStatusEnum!
+    applied: Boolean!
+    update_count: Int!
+    updatable: Boolean!
+    created: Time!
+    updated: Time
+    closed: Time
+    expires: Time
+}
+
+input EditInput {
+  """Not required for create type"""
+  id: ID
+  operation: OperationEnum!
+  """Only required for merge type"""
+  merge_source_ids: [ID!]
+  comment: String
+  """Edit submitted by an automated script. Requires bot permission"""
+  bot: Boolean
+}
+
+input EditVoteInput {
+    id: ID!
+    vote: VoteTypeEnum!
+}
+
+input EditCommentInput {
+    id: ID!
+    comment: String!
+}
+
+input UpdateEditCommentInput {
+    """ID of the comment to edit"""
+    id: ID!
+    comment: String!
+    """Reason for the edit, recorded in the moderation audit log"""
+    reason: String
+}
+
+input HideEditCommentInput {
+    """ID of the comment to hide/unhide"""
+    id: ID!
+    hidden: Boolean!
+    """Reason for the change, recorded in the moderation audit log"""
+    reason: String
+}
+
+type QueryEditsResultType {
+  count: Int!
+  edits: [Edit!]!
+}
+
+enum EditSortEnum {
+  CREATED_AT
+  UPDATED_AT
+  CLOSED_AT
+}
+
+enum UserVotedFilterEnum {
+    ABSTAIN
+    ACCEPT
+    REJECT
+    NOT_VOTED
+}
+
+input EditQueryInput {
+  """Filter by user id"""
+  user_id: ID
+  """Filter by status"""
+  status: VoteStatusEnum
+  """Filter by operation"""
+  operation: OperationEnum
+  """Filter by vote count"""
+  vote_count: IntCriterionInput
+  """Filter by applied status"""
+  applied: Boolean
+  """Filter by target type"""
+  target_type: TargetTypeEnum
+  """Filter by target id"""
+  target_id: ID
+  """Filter by favorite status"""
+  is_favorite: Boolean
+  """Filter by user voted status"""
+  voted: UserVotedFilterEnum
+  """Filter to bot edits only"""
+  is_bot: Boolean
+  """Filter out user's own edits"""
+  include_user_submitted: Boolean
+
+  page: Int! = 1
+  per_page: Int! = 25
+  direction: SortDirectionEnum! = DESC
+  sort: EditSortEnum! = CREATED_AT
+}
+
+input ApproveEditInput {
+    id: ID!
+}
+input CancelEditInput {
+    id: ID!
+}
+input DeleteEditInput {
+    id: ID!
+    reason: String!
+}
+
+input AmendEditInput {
+    id: ID!
+    reason: String!
+    """Fields to remove from the diff (e.g., ["name", "disambiguation"])"""
+    remove_fields: [String!]
+    """Array items to remove from added arrays"""
+    remove_added_items: [AmendItemRemoval!]
+    """Array items to remove from removed arrays"""
+    remove_removed_items: [AmendItemRemoval!]
+}
+
+input AmendItemRemoval {
+    """Field name (e.g., "aliases", "urls", "images")"""
+    field: String!
+    """Indices to remove from the array"""
+    indices: [Int!]!
+}

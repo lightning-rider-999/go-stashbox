@@ -1,0 +1,19 @@
+# Curated operation metadata that cannot be derived from the SDL alone.
+#
+# Lists are keyed by GraphQL root-field name, not by the generated operation
+# name. Every name is validated against the vendored schema at load time, so a
+# rename or removal upstream is a red build, not a silent drift (see
+# LoadOverlay).
+#
+# go-stashbox is a READ-ONLY client: genops is fed a query-only view of the
+# schema (the Mutation root is dropped before compilation), so the only root
+# fields that exist are queries. No query mutates, destroys, or returns an async
+# job, so both curated lists are empty. The keys must still be present — genops
+# requires the overlay file to parse — but an empty list is valid and validated.
+#
+# destructive: mutations that drop/overwrite/merge-away data with no undo, gated
+# behind an explicit confirmation. Empty here: a read-only client exposes none.
+destructive: []
+# jobReturning: root fields that kick off an async job (the --wait machinery).
+# Empty here: stash-box has no job-returning fields, and none are exposed anyway.
+jobReturning: []

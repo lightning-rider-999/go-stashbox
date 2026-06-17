@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "v0.10.0",
+  "operations": [
+    {
+      "name": "FindDraft",
+      "field": "findDraft",
+      "kind": "query",
+      "returnType": "Draft"
+    },
+    {
+      "name": "FindDrafts",
+      "field": "findDrafts",
+      "kind": "query",
+      "returnType": "Draft"
+    },
+    {
+      "name": "FindEdit",
+      "field": "findEdit",
+      "kind": "query",
+      "returnType": "Edit"
+    },
+    {
+      "name": "FindPerformer",
+      "field": "findPerformer",
+      "kind": "query",
+      "returnType": "Performer"
+    },
+    {
+      "name": "FindScene",
+      "field": "findScene",
+      "kind": "query",
+      "returnType": "Scene"
+    },
+    {
+      "name": "FindScenesBySceneFingerprints",
+      "field": "findScenesBySceneFingerprints",
+      "kind": "query",
+      "returnType": "Scene"
+    },
+    {
+      "name": "FindSite",
+      "field": "findSite",
+      "kind": "query",
+      "returnType": "Site"
+    },
+    {
+      "name": "FindSiteCategory",
+      "field": "findSiteCategory",
+      "kind": "query",
+      "returnType": "SiteCategory"
+    },
+    {
+      "name": "FindStudio",
+      "field": "findStudio",
+      "kind": "query",
+      "returnType": "Studio"
+    },
+    {
+      "name": "FindTag",
+      "field": "findTag",
+      "kind": "query",
+      "returnType": "Tag"
+    },
+    {
+      "name": "FindTagCategory",
+      "field": "findTagCategory",
+      "kind": "query",
+      "returnType": "TagCategory"
+    },
+    {
+      "name": "FindTagOrAlias",
+      "field": "findTagOrAlias",
+      "kind": "query",
+      "returnType": "Tag"
+    },
+    {
+      "name": "FindUser",
+      "field": "findUser",
+      "kind": "query",
+      "returnType": "User"
+    },
+    {
+      "name": "FingerprintClusters",
+      "field": "fingerprintClusters",
+      "kind": "query",
+      "inputType": "FingerprintClustersInput",
+      "returnType": "FingerprintClustersResult"
+    },
+    {
+      "name": "GetConfig",
+      "field": "getConfig",
+      "kind": "query",
+      "returnType": "StashBoxConfig"
+    },
+    {
+      "name": "GetUnreadNotificationCount",
+      "field": "getUnreadNotificationCount",
+      "kind": "query",
+      "returnType": "UnreadNotificationCount"
+    },
+    {
+      "name": "Me",
+      "field": "me",
+      "kind": "query",
+      "returnType": "User"
+    },
+    {
+      "name": "QueryEdits",
+      "field": "queryEdits",
+      "kind": "query",
+      "inputType": "EditQueryInput",
+      "returnType": "QueryEditsResultType"
+    },
+    {
+      "name": "QueryExistingPerformer",
+      "field": "queryExistingPerformer",
+      "kind": "query",
+      "inputType": "QueryExistingPerformerInput",
+      "returnType": "QueryExistingPerformerResult"
+    },
+    {
+      "name": "QueryExistingScene",
+      "field": "queryExistingScene",
+      "kind": "query",
+      "inputType": "QueryExistingSceneInput",
+      "returnType": "QueryExistingSceneResult"
+    },
+    {
+      "name": "QueryModAudits",
+      "field": "queryModAudits",
+      "kind": "query",
+      "inputType": "ModAuditQueryInput",
+      "returnType": "QueryModAuditsResultType"
+    },
+    {
+      "name": "QueryNotifications",
+      "field": "queryNotifications",
+      "kind": "query",
+      "inputType": "QueryNotificationsInput",
+      "returnType": "QueryNotificationsResult"
+    },
+    {
+      "name": "QueryPerformers",
+      "field": "queryPerformers",
+      "kind": "query",
+      "inputType": "PerformerQueryInput",
+      "returnType": "QueryPerformersResultType"
+    },
+    {
+      "name": "QueryScenes",
+      "field": "queryScenes",
+      "kind": "query",
+      "inputType": "SceneQueryInput",
+      "returnType": "QueryScenesResultType"
+    },
+    {
+      "name": "QuerySiteCategories",
+      "field": "querySiteCategories",
+      "kind": "query",
+      "returnType": "QuerySiteCategoriesResultType"
+    },
+    {
+      "name": "QuerySites",
+      "field": "querySites",
+      "kind": "query",
+      "returnType": "QuerySitesResultType"
+    },
+    {
+      "name": "QueryStudios",
+      "field": "queryStudios",
+      "kind": "query",
+      "inputType": "StudioQueryInput",
+      "returnType": "QueryStudiosResultType"
+    },
+    {
+      "name": "QueryTagCategories",
+      "field": "queryTagCategories",
+      "kind": "query",
+      "returnType": "QueryTagCategoriesResultType"
+    },
+    {
+      "name": "QueryTags",
+      "field": "queryTags",
+      "kind": "query",
+      "inputType": "TagQueryInput",
+      "returnType": "QueryTagsResultType"
+    },
+    {
+      "name": "QueryUsers",
+      "field": "queryUsers",
+      "kind": "query",
+      "inputType": "UserQueryInput",
+      "returnType": "QueryUsersResultType"
+    },
+    {
+      "name": "SearchPerformer",
+      "field": "searchPerformer",
+      "kind": "query",
+      "returnType": "Performer",
+      "deprecated": true,
+      "deprecationReason": "Use searchPerformers"
+    },
+    {
+      "name": "SearchPerformers",
+      "field": "searchPerformers",
+      "kind": "query",
+      "returnType": "QueryPerformersResultType"
+    },
+    {
+      "name": "SearchScene",
+      "field": "searchScene",
+      "kind": "query",
+      "returnType": "Scene",
+      "deprecated": true,
+      "deprecationReason": "Use searchScenes"
+    },
+    {
+      "name": "SearchScenes",
+      "field": "searchScenes",
+      "kind": "query",
+      "returnType": "QueryScenesResultType"
+    },
+    {
+      "name": "SearchStudio",
+      "field": "searchStudio",
+      "kind": "query",
+      "returnType": "Studio"
+    },
+    {
+      "name": "SearchTag",
+      "field": "searchTag",
+      "kind": "query",
+      "returnType": "Tag"
+    },
+    {
+      "name": "Version",
+      "field": "version",
+      "kind": "query",
+      "returnType": "Version"
+    }
+  ]
+}

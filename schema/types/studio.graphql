@@ -1,0 +1,95 @@
+type Studio {
+  id: ID!
+  name: String!
+  aliases: [String!]!
+  urls: [URL!]!
+  parent: Studio
+  child_studios: [Studio!]! @deprecated(reason: "Use sub_studios instead")
+  sub_studios(input: StudioQueryInput): QueryStudiosResultType!
+  images: [Image!]!
+  deleted: Boolean!
+  is_favorite: Boolean!
+  created: Time!
+  updated: Time!
+
+  performers(input: PerformerQueryInput!): QueryPerformersResultType!
+}
+
+input StudioCreateInput {
+  name: String!
+  aliases: [String!]
+  urls: [URLInput!]
+  parent_id: ID
+  image_ids: [ID!]
+}
+
+input StudioUpdateInput {
+  id: ID!
+  name: String
+  aliases: [String!]
+  urls: [URLInput!]
+  parent_id: ID
+  image_ids: [ID!]
+}
+
+input StudioDestroyInput {
+  id: ID!
+}
+
+input StudioEditDetailsInput {
+  name: String
+  aliases: [String!]
+  urls: [URLInput!]
+  parent_id: ID
+  image_ids: [ID!]
+}
+
+input StudioEditInput {
+  edit: EditInput!
+  """Not required for destroy type"""
+  details: StudioEditDetailsInput
+}
+
+type StudioEdit {
+  name: String
+  """Added and modified URLs"""
+  added_urls: [URL!]
+  removed_urls: [URL!]
+  parent: Studio
+  added_images: [Image!]
+  removed_images: [Image!]
+  added_aliases: [String!]
+  removed_aliases: [String!]
+
+  images: [Image!]!
+  urls: [URL!]!
+}
+
+type QueryStudiosResultType {
+  count: Int!
+  studios: [Studio!]!
+}
+
+enum StudioSortEnum {
+  NAME
+  CREATED_AT
+  UPDATED_AT
+}
+
+input StudioQueryInput {
+  """Filter to search name - assumes like query unless quoted"""
+  name: String
+  """Filter to search studio name, aliases and parent studio name - assumes like query unless quoted"""
+  names: String
+  """Filter to search url - assumes like query unless quoted"""
+  url: String
+  parent: IDCriterionInput
+  has_parent: Boolean
+  """Filter by studio favorite status for the current user"""
+  is_favorite: Boolean
+
+  page: Int! = 1
+  per_page: Int! = 25
+  direction: SortDirectionEnum! = ASC
+  sort: StudioSortEnum! = NAME
+}

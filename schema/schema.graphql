@@ -1,0 +1,226 @@
+"""The query root for this schema"""
+type Query {
+  #### Performers ####
+
+  # performer names may not be unique
+  """Find a performer by ID"""
+  findPerformer(id: ID!): Performer @hasRole(role: READ)
+  queryPerformers(input: PerformerQueryInput!): QueryPerformersResultType! @hasRole(role: READ)
+
+  #### Studios ####
+
+  # studio names should be unique
+  """Find a studio by ID or name"""
+  findStudio(id: ID, name: String): Studio @hasRole(role: READ)
+  queryStudios(input: StudioQueryInput!): QueryStudiosResultType! @hasRole(role: READ)
+
+  #### Tags ####
+
+  # tag names will be unique
+  """Find a tag by ID or name"""
+  findTag(id: ID, name: String): Tag @hasRole(role: READ)
+  """Find a tag with a matching name or alias"""
+  findTagOrAlias(name: String!): Tag @hasRole(role: READ)
+  queryTags(input: TagQueryInput!): QueryTagsResultType! @hasRole(role: READ)
+
+  """Find a tag category by ID"""
+  findTagCategory(id: ID!): TagCategory @hasRole(role: READ)
+  queryTagCategories: QueryTagCategoriesResultType! @hasRole(role: READ)
+
+  #### Scenes ####
+
+  # ids should be unique
+  """Find a scene by ID"""
+  findScene(id: ID!): Scene @hasRole(role: READ)
+
+  """Finds scenes that match a list of hashes"""
+  findScenesBySceneFingerprints(fingerprints: [[FingerprintQueryInput!]!]!): [[Scene]!]! @hasRole(role: READ)
+
+  queryScenes(input: SceneQueryInput!): QueryScenesResultType! @hasRole(role: READ)
+
+  """Find an external site by ID"""
+  findSite(id: ID!): Site @hasRole(role: READ)
+  querySites: QuerySitesResultType! @hasRole(role: READ)
+  findSiteCategory(id: Int!): SiteCategory @hasRole(role: READ)
+  querySiteCategories: QuerySiteCategoriesResultType! @hasRole(role: READ)
+
+  #### Edits ####
+
+  findEdit(id: ID!): Edit @hasRole(role: READ)
+  queryEdits(input: EditQueryInput!): QueryEditsResultType! @hasRole(role: READ)
+
+  #### Users ####
+
+  """Find user by ID or username"""
+  findUser(id: ID, username: String): User @hasRole(role: READ)
+  queryUsers(input: UserQueryInput!): QueryUsersResultType! @hasRole(role: ADMIN)
+
+  """Returns currently authenticated user"""
+  me: User
+
+  ### Full text search ###
+  searchPerformer(term: String!, limit: Int): [Performer!]! @hasRole(role: READ) @deprecated(reason: "Use searchPerformers")
+  searchPerformers(term: String!, limit: Int, page: Int, per_page: Int, filter: PerformerSearchFilter): QueryPerformersResultType! @hasRole(role: READ)
+  searchScene(term: String!, limit: Int): [Scene!]! @hasRole(role: READ) @deprecated(reason: "Use searchScenes")
+  searchScenes(term: String!, limit: Int, page: Int, per_page: Int): QueryScenesResultType! @hasRole(role: READ)
+  searchTag(term: String!, limit: Int): [Tag!]! @hasRole(role: READ)
+  searchStudio(term: String!, limit: Int): [Studio!]! @hasRole(role: READ)
+
+  ### Drafts ###
+  findDraft(id: ID!): Draft @hasRole(role: READ)
+  findDrafts: [Draft!]! @hasRole(role: READ)
+
+  ###Find scenes or pending scenes which match scene input###
+  queryExistingScene(input: QueryExistingSceneInput!): QueryExistingSceneResult! @hasRole(role: READ)
+
+  ###Find performers or pending performers which match performer input###
+  queryExistingPerformer(input: QueryExistingPerformerInput!): QueryExistingPerformerResult! @hasRole(role: READ)
+
+  #### Version ####
+  version: Version! @hasRole(role: READ)
+
+  ### Fingerprint clusters ###
+  """Returns phash clusters for a scene"""
+  fingerprintClusters(input: FingerprintClustersInput!): FingerprintClustersResult! @hasRole(role: EDIT)
+
+  ### Instance Config ###
+  getConfig: StashBoxConfig!
+
+  queryNotifications(input: QueryNotificationsInput!): QueryNotificationsResult! @hasRole(role: READ)
+  getUnreadNotificationCount: UnreadNotificationCount! @hasRole(role: READ)
+
+  ### Moderator Audits ###
+  queryModAudits(input: ModAuditQueryInput!): QueryModAuditsResultType! @hasRole(role: ADMIN)
+}
+
+type Mutation {
+  # Admin-only interface
+  sceneCreate(input: SceneCreateInput!): Scene @hasRole(role: MODIFY)
+  sceneUpdate(input: SceneUpdateInput!): Scene @hasRole(role: MODIFY)
+  sceneDestroy(input: SceneDestroyInput!): Boolean! @hasRole(role: MODIFY)
+
+  performerCreate(input: PerformerCreateInput!): Performer @hasRole(role: MODIFY)
+  performerUpdate(input: PerformerUpdateInput!): Performer @hasRole(role: MODIFY)
+  performerDestroy(input: PerformerDestroyInput!): Boolean! @hasRole(role: MODIFY)
+
+  studioCreate(input: StudioCreateInput!): Studio @hasRole(role: MODIFY)
+  studioUpdate(input: StudioUpdateInput!): Studio @hasRole(role: MODIFY)
+  studioDestroy(input: StudioDestroyInput!): Boolean! @hasRole(role: MODIFY)
+
+  tagCreate(input: TagCreateInput!): Tag @hasRole(role: MODIFY)
+  tagUpdate(input: TagUpdateInput!): Tag @hasRole(role: MODIFY)
+  tagDestroy(input: TagDestroyInput!): Boolean! @hasRole(role: MODIFY)
+
+  userCreate(input: UserCreateInput!): User @hasRole(role: ADMIN)
+  userUpdate(input: UserUpdateInput!): User @hasRole(role: ADMIN)
+  userDestroy(input: UserDestroyInput!): Boolean! @hasRole(role: ADMIN)
+
+  imageCreate(input: ImageCreateInput!): Image @hasRole(role: EDIT)
+  imageDestroy(input: ImageDestroyInput!): Boolean! @hasRole(role: MODIFY)
+
+  """User interface for registering"""
+  newUser(input: NewUserInput!): ID
+  activateNewUser(input: ActivateNewUserInput!): User
+
+  generateInviteCode: ID @hasRole(role: READ) @deprecated(reason: "Use generateInviteCodes")
+  """Generates an invite code using an invite token"""
+  generateInviteCodes(input: GenerateInviteCodeInput): [ID!]! @hasRole(role: READ)
+  """Removes a pending invite code - refunding the token"""
+  rescindInviteCode(code: ID!): Boolean!
+  """Adds invite tokens for a user"""
+  grantInvite(input: GrantInviteInput!): Int!
+  """Removes invite tokens from a user"""
+  revokeInvite(input: RevokeInviteInput!): Int!
+
+  tagCategoryCreate(input: TagCategoryCreateInput!): TagCategory @hasRole(role: ADMIN)
+  tagCategoryUpdate(input: TagCategoryUpdateInput!): TagCategory @hasRole(role: ADMIN)
+  tagCategoryDestroy(input: TagCategoryDestroyInput!): Boolean! @hasRole(role: ADMIN)
+
+  siteCreate(input: SiteCreateInput!): Site @hasRole(role: ADMIN)
+  siteUpdate(input: SiteUpdateInput!): Site @hasRole(role: ADMIN)
+  siteDestroy(input: SiteDestroyInput!): Boolean! @hasRole(role: ADMIN)
+
+  siteCategoryCreate(input: SiteCategoryCreateInput!): SiteCategory @hasRole(role: ADMIN)
+  siteCategoryUpdate(input: SiteCategoryUpdateInput!): SiteCategory @hasRole(role: ADMIN)
+  siteCategoryDestroy(input: SiteCategoryDestroyInput!): Boolean! @hasRole(role: ADMIN)
+
+  """Regenerates the api key for the given user, or the current user if id not provided"""
+  regenerateAPIKey(userID: ID): String!
+
+  """Generates an email to reset a user password"""
+  resetPassword(input: ResetPasswordInput!): Boolean!
+
+  """Changes the password for the current user"""
+  changePassword(input: UserChangePasswordInput!): Boolean!
+
+  """Request an email change for the current user"""
+  requestChangeEmail: UserChangeEmailStatus! @hasRole(role: READ)
+  validateChangeEmail(token: ID!, email: String!): UserChangeEmailStatus! @hasRole(role: READ)
+  confirmChangeEmail(token: ID!): UserChangeEmailStatus! @hasRole(role: READ)
+
+  # Edit interfaces
+  """Propose a new scene or modification to a scene"""
+  sceneEdit(input: SceneEditInput!): Edit! @hasRole(role: EDIT)
+  """Propose a new performer or modification to a performer"""
+  performerEdit(input: PerformerEditInput!): Edit! @hasRole(role: EDIT)
+  """Propose a new studio or modification to a studio"""
+  studioEdit(input: StudioEditInput!): Edit! @hasRole(role: EDIT)
+  """Propose a new tag or modification to a tag"""
+  tagEdit(input: TagEditInput!): Edit! @hasRole(role: EDIT)
+
+  """Update a pending scene edit"""
+  sceneEditUpdate(id: ID!, input: SceneEditInput!): Edit! @hasRole(role: EDIT)
+  """Update a pending performer edit"""
+  performerEditUpdate(id: ID!, input: PerformerEditInput!): Edit! @hasRole(role: EDIT)
+  """Update a pending studio edit"""
+  studioEditUpdate(id: ID!, input: StudioEditInput!): Edit! @hasRole(role: EDIT)
+  """Update a pending tag edit"""
+  tagEditUpdate(id: ID!, input: TagEditInput!): Edit! @hasRole(role: EDIT)
+
+  """Vote to accept/reject an edit"""
+  editVote(input: EditVoteInput!): Edit! @hasRole(role: VOTE)
+  """Comment on an edit"""
+  editComment(input: EditCommentInput!): Edit! @hasRole(role: EDIT)
+  """Edit a comment's text - moderator only"""
+  updateEditComment(input: UpdateEditCommentInput!): EditComment! @hasRole(role: MODERATE)
+  """Hide or unhide a comment from public view - moderator only"""
+  hideEditComment(input: HideEditCommentInput!): EditComment! @hasRole(role: MODERATE)
+  """Approve edit without voting"""
+  approveEdit(input: ApproveEditInput!): Edit! @hasRole(role: MODERATE)
+  """Cancel edit without voting"""
+  cancelEdit(input: CancelEditInput!): Edit! @hasRole(role: EDIT)
+  """Delete a closed edit - moderator only"""
+  deleteEdit(input: DeleteEditInput!): Boolean! @hasRole(role: MODERATE)
+  """Amend a closed edit by removing fields - moderator only"""
+  amendEdit(input: AmendEditInput!): Edit! @hasRole(role: MODERATE)
+
+  """Matches/unmatches a scene to fingerprint"""
+  submitFingerprint(input: FingerprintSubmission!): Boolean! @hasRole(role: READ)
+  """Batch submit up to 1000 fingerprint matches"""
+  submitFingerprints(input: [FingerprintBatchSubmission!]!): [FingerprintSubmissionResult!]! @hasRole(role: READ)
+
+  """Move all fingerprint submissions from source scene to target scene"""
+  sceneMoveFingerprintSubmissions(input: MoveFingerprintSubmissionsInput!): Boolean! @hasRole(role: MODERATE)
+  """Delete all fingerprint submissions for a specific fingerprint on a scene"""
+  sceneDeleteFingerprintSubmissions(input: DeleteFingerprintSubmissionsInput!): Boolean! @hasRole(role: MODERATE)
+
+  """Draft submissions"""
+  submitSceneDraft(input: SceneDraftInput!): DraftSubmissionStatus! @hasRole(role: EDIT)
+  submitPerformerDraft(input: PerformerDraftInput!): DraftSubmissionStatus! @hasRole(role: EDIT)
+  destroyDraft(id: ID!): Boolean! @hasRole(role: EDIT)
+
+  """Favorite or unfavorite a performer"""
+  favoritePerformer(id: ID!, favorite: Boolean!): Boolean! @hasRole(role: READ)
+  """Favorite or unfavorite a studio"""
+  favoriteStudio(id: ID!, favorite: Boolean!): Boolean! @hasRole(role: READ)
+
+  """Mark all of the current users notifications as read."""
+  markNotificationsRead(notification: MarkNotificationReadInput): Boolean! @hasRole(role: READ)
+  """Update notification subscriptions for current user."""
+  updateNotificationSubscriptions(subscriptions: [NotificationEnum!]!): Boolean! @hasRole(role: READ)
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

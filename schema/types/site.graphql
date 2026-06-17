@@ -1,0 +1,79 @@
+type Site {
+  id: ID!
+  name: String!
+  description:  String
+  url:  String
+  regex:  String
+  valid_types: [ValidSiteTypeEnum!]!
+  icon: String!
+  category: SiteCategory
+  """Whether links for this site are highlighted on entity pages, in addition to being listed in the links section"""
+  highlighted: Boolean!
+  created: Time!
+  updated: Time!
+}
+
+input SiteCreateInput {
+  name: String!
+  description: String
+  url: String
+  regex: String
+  valid_types: [ValidSiteTypeEnum!]!
+  category_id: Int
+  highlighted: Boolean!
+}
+
+input SiteUpdateInput {
+  id: ID!
+  name: String!
+  description: String
+  url: String
+  regex: String
+  valid_types: [ValidSiteTypeEnum!]!
+  category_id: Int
+  highlighted: Boolean!
+}
+
+type SiteCategory {
+  id: Int!
+  name: String!
+  description: String
+  sort_order: Int!
+}
+
+input SiteCategoryCreateInput {
+  name: String!
+  description: String
+  sort_order: Int
+}
+
+input SiteCategoryUpdateInput {
+  id: Int!
+  name: String
+  description: String
+  sort_order: Int
+}
+
+input SiteCategoryDestroyInput {
+  id: Int!
+}
+
+type QuerySiteCategoriesResultType {
+  count: Int!
+  site_categories: [SiteCategory!]!
+}
+
+input SiteDestroyInput {
+  id: ID!
+}
+
+type QuerySitesResultType {
+  count: Int!
+  sites: [Site!]!
+}
+
+enum ValidSiteTypeEnum {
+  PERFORMER
+  SCENE
+  STUDIO
+}
