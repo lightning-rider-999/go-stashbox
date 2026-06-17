@@ -1,0 +1,318 @@
+type PerformerAppearance {
+  performer: Performer!
+  """Performing as alias"""
+  as: String
+}
+
+input PerformerAppearanceInput {
+  performer_id: ID!
+  """Performing as alias"""
+  as: String
+}
+
+enum FingerprintAlgorithm {
+  MD5
+  OSHASH
+  PHASH
+}
+
+enum FavoriteFilter {
+  PERFORMER
+  STUDIO
+  ALL
+}
+
+enum FingerprintSubmissionType {
+  "Positive vote"
+  VALID
+  "Report as invalid"
+  INVALID
+  "Remove vote"
+  REMOVE
+}
+
+type Fingerprint {
+  hash: FingerprintHash!
+  algorithm: FingerprintAlgorithm!
+  duration: Int!
+  "number of times this fingerprint has been submitted (excluding reports)"
+  submissions: Int!
+  "number of times this fingerprint has been reported"
+  reports: Int!
+  created: Time!
+  updated: Time!
+  "true if the current user submitted this fingerprint"
+  user_submitted: Boolean!
+  "true if the current user reported this fingerprint"
+  user_reported: Boolean!
+}
+
+type DraftFingerprint {
+  hash: FingerprintHash!
+  algorithm: FingerprintAlgorithm!
+  duration: Int!
+}
+
+input FingerprintInput {
+  """assumes current user if omitted. Ignored for non-modify Users"""
+  user_ids: [ID!]
+  hash: FingerprintHash!
+  algorithm: FingerprintAlgorithm!
+  duration: Int!
+}
+
+input FingerprintEditInput {
+  user_ids: [ID!]
+  hash: FingerprintHash!
+  algorithm: FingerprintAlgorithm!
+  duration: Int!
+  created: Time!
+  submissions: Int @deprecated(reason: "Unused")
+  updated: Time @deprecated(reason: "Unused")
+}
+
+input FingerprintQueryInput {
+  hash: FingerprintHash!
+  algorithm: FingerprintAlgorithm!
+}
+
+input FingerprintSubmission {
+  scene_id: ID!
+  fingerprint: FingerprintInput!
+  unmatch: Boolean @deprecated(reason: "Use `vote` with REMOVE instead")
+  vote: FingerprintSubmissionType = VALID
+}
+
+input FingerprintBatchSubmission {
+  scene_id: ID!
+  hash: FingerprintHash!
+  algorithm: FingerprintAlgorithm!
+  duration: Int!
+}
+
+type FingerprintSubmissionResult {
+  """The fingerprint hash that was submitted"""
+  hash: FingerprintHash!
+  """The scene ID that was submitted to"""
+  scene_id: ID!
+  """Error message if submission failed"""
+  error: String
+}
+
+input MoveFingerprintSubmissionsInput {
+  fingerprints: [FingerprintQueryInput!]!
+  source_scene_id: ID!
+  target_scene_id: ID!
+}
+
+input DeleteFingerprintSubmissionsInput {
+  fingerprints: [FingerprintQueryInput!]!
+  scene_id: ID!
+}
+
+type Scene {
+  id: ID!
+  title: String
+  details: String
+  date: String @deprecated(reason: "Please use `release_date` instead")
+  release_date: String
+  production_date: String
+  urls: [URL!]!
+  studio: Studio
+  tags: [Tag!]!
+  images: [Image!]!
+  performers: [PerformerAppearance!]!
+  fingerprints(is_submitted: Boolean = False): [Fingerprint!]!
+  duration: Int
+  director: String
+  code: String
+  deleted: Boolean!
+  edits: [Edit!]!
+  created: Time!
+  updated: Time!
+}
+
+input SceneCreateInput {
+  title: String
+  details: String
+  urls: [URLInput!]
+  date: String!
+  production_date: String
+  studio_id: ID
+  performers: [PerformerAppearanceInput!]
+  tag_ids: [ID!]
+  image_ids: [ID!]
+  fingerprints: [FingerprintEditInput!]!
+  duration: Int
+  director: String
+  code: String
+}
+
+input SceneUpdateInput {
+  id: ID!
+  title: String
+  details: String
+  urls: [URLInput!]
+  date: String
+  production_date: String
+  studio_id: ID
+  performers: [PerformerAppearanceInput!]
+  tag_ids: [ID!]
+  image_ids: [ID!]
+  fingerprints: [FingerprintEditInput!]
+  duration: Int
+  director: String
+  code: String
+}
+
+input SceneDestroyInput {
+  id: ID!
+}
+
+input SceneEditDetailsInput {
+  title: String
+  details: String
+  urls: [URLInput!]
+  date: String
+  production_date: String
+  studio_id: ID
+  performers: [PerformerAppearanceInput!]
+  tag_ids: [ID!]
+  image_ids: [ID!]
+  duration: Int
+  director: String
+  code: String
+  fingerprints: [FingerprintInput!]
+  draft_id: ID
+}
+
+input SceneEditInput {
+  edit: EditInput!
+  """Not required for destroy type"""
+  details: SceneEditDetailsInput
+}
+
+type SceneEdit {
+  title: String
+  details: String
+  added_urls: [URL!]
+  removed_urls: [URL!]
+  date: String
+  production_date: String
+  studio: Studio
+  """Added or modified performer appearance entries"""
+  added_performers: [PerformerAppearance!]
+  removed_performers: [PerformerAppearance!]
+  added_tags: [Tag!]
+  removed_tags: [Tag!]
+  added_images: [Image!]
+  removed_images: [Image!]
+  added_fingerprints: [Fingerprint!]
+  removed_fingerprints: [Fingerprint!]
+  duration: Int
+  director: String
+  code: String
+  draft_id: ID
+
+  urls: [URL!]!
+  performers: [PerformerAppearance!]!
+  tags: [Tag!]!
+  images: [Image!]!
+  fingerprints: [Fingerprint!]!
+}
+
+type QueryScenesResultType {
+  count: Int!
+  scenes: [Scene!]!
+}
+
+enum SceneSortEnum {
+  TITLE
+  DATE
+  DURATION
+  TRENDING
+  POPULARITY
+  CREATED_AT
+  UPDATED_AT
+}
+
+input SceneQueryInput {
+  text: String @deprecated(reason: "Use `title` instead.")
+  """Filter to search title - assumes like query unless quoted"""
+  title: String
+  """Filter to search urls - assumes like query unless quoted"""
+  url: String
+  """Filter by date"""
+  date: DateCriterionInput
+  """Filter by production date"""
+  production_date: DateCriterionInput
+  """Filter to only include scenes with this studio"""
+  studios: MultiIDCriterionInput
+  """Filter to only include scenes with this studio as primary or parent"""
+  parentStudio: String
+  """Filter to only include scenes with these tags"""
+  tags: MultiIDCriterionInput
+  """Filter to only include scenes with these performers"""
+  performers: MultiIDCriterionInput
+  """Filter to include scenes with performer appearing as alias"""
+  alias: StringCriterionInput
+  """Filter to only include scenes with these fingerprints"""
+  fingerprints: MultiStringCriterionInput
+  """Filter by favorited entity"""
+  favorites: FavoriteFilter
+  """Filter to scenes with fingerprints submitted by the user"""
+  has_fingerprint_submissions: Boolean = False
+
+  page: Int! = 1
+  per_page: Int! = 25
+  direction: SortDirectionEnum! = DESC
+  sort: SceneSortEnum! = DATE
+}
+
+union SceneDraftStudio = Studio | DraftEntity
+union SceneDraftPerformer = Performer | DraftEntity
+union SceneDraftTag = Tag | DraftEntity
+
+type SceneDraft {
+  id: ID
+  title: String
+  code: String
+  details: String
+  director: String
+  urls: [String!]
+  date: String
+  production_date: String
+  studio: SceneDraftStudio
+  performers: [SceneDraftPerformer!]!
+  tags: [SceneDraftTag!]
+  image: Image
+  fingerprints: [DraftFingerprint!]!
+}
+
+input SceneDraftInput {
+  id: ID
+  title: String
+  code: String
+  details: String
+  director: String
+  url: String @deprecated(reason: "Use urls field instead.")
+  urls: [String!]
+  date: String
+  production_date: String
+  studio: DraftEntityInput
+  performers: [DraftEntityInput!]!
+  tags: [DraftEntityInput!]
+  image: Upload
+  fingerprints: [FingerprintInput!]!
+}
+
+input QueryExistingSceneInput {
+  title: String
+  studio_id: ID
+  fingerprints: [FingerprintInput!]!
+}
+
+type QueryExistingSceneResult {
+  edits: [Edit!]!
+  scenes: [Scene!]!
+}

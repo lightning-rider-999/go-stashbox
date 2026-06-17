@@ -1,0 +1,112 @@
+type Notification {
+  created: Time!
+  read: Boolean!
+  level: NotificationLevel!
+  data: NotificationData!
+}
+
+enum NotificationLevel {
+  NORMAL
+  URGENT
+}
+
+type UnreadNotificationCount {
+  total: Int!
+  urgent: Int!
+}
+
+enum NotificationEnum {
+  FAVORITE_PERFORMER_SCENE
+  FAVORITE_PERFORMER_EDIT
+  FAVORITE_STUDIO_SCENE
+  FAVORITE_STUDIO_EDIT
+  COMMENT_OWN_EDIT
+  DOWNVOTE_OWN_EDIT
+  FAILED_OWN_EDIT
+  COMMENT_COMMENTED_EDIT
+  COMMENT_VOTED_EDIT
+  UPDATED_EDIT
+  FINGERPRINTED_SCENE_EDIT
+  FINGERPRINT_MOVED
+}
+
+union NotificationData =
+   | FavoritePerformerScene
+   | FavoritePerformerEdit
+   | FavoriteStudioScene
+   | FavoriteStudioEdit
+   | CommentOwnEdit
+   | CommentCommentedEdit
+   | CommentVotedEdit
+   | DownvoteOwnEdit
+   | FailedOwnEdit
+   | UpdatedEdit
+   | FingerprintedSceneEdit
+   | FingerprintMovedScene
+
+type FavoritePerformerScene {
+  scene: Scene!
+}
+
+type FavoritePerformerEdit {
+  edit: Edit!
+}
+
+type FavoriteStudioScene {
+  scene: Scene!
+}
+
+type FavoriteStudioEdit {
+  edit: Edit!
+}
+
+type CommentOwnEdit {
+  comment: EditComment!
+}
+
+type DownvoteOwnEdit {
+  edit: Edit!
+}
+
+type FailedOwnEdit {
+  edit: Edit!
+}
+
+type CommentCommentedEdit {
+  comment: EditComment!
+}
+
+type CommentVotedEdit {
+  comment: EditComment!
+}
+
+type UpdatedEdit {
+  edit: Edit!
+}
+
+type FingerprintedSceneEdit {
+  edit: Edit!
+}
+
+type FingerprintMovedScene {
+  source_scene: Scene!
+  target_scene: Scene!
+  fingerprint_hash: FingerprintHash!
+}
+
+input QueryNotificationsInput {
+  page: Int! = 1
+  per_page: Int! = 25
+  type: NotificationEnum
+  unread_only: Boolean
+}
+
+type QueryNotificationsResult {
+  count: Int!
+  notifications: [Notification!]!
+}
+
+input MarkNotificationReadInput {
+  type: NotificationEnum!
+  id: ID!
+}
