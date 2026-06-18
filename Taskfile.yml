@@ -1,8 +1,9 @@
 # Taskfile for go-stashbox. See https://taskfile.dev
 #
 # The rituals that gate every change live here:
-#   check     gofmt, build, vet, test -race, lint, tidy, codegen-freshness
+#   check     gofmt, build, vet, test -race, lint, tidy, codegen + docs freshness
 #   generate  regenerate the typed surface (genops, then genqlient)
+#   docs      regenerate the markdown CLI reference under docs/cli/
 #   build     compile the stash-box CLI
 #   schema    refresh the vendored stash-box SDL at the pinned tag, re-stamp, regenerate
 #   vuln      scan for known vulnerabilities (stdlib CVEs matter for a static binary)
@@ -35,11 +36,31 @@ tasks:
         schema/catalog.json schema/version_gen.go
         stashbox/operations_gen.go
         cmd/stashbox/gen_commands.go cmd/stashbox/catalog.json
+      - task: docs
+      # Docs freshness: the generated CLI reference under docs/cli/ must match the
+      # current command tree. Regeneration (deterministic: DisableAutoGenTag is set,
+      # cobra sorts deterministically) must not change any committed page. `git add
+      # -A` stages the regenerated tree first so the subsequent `--cached` diff
+      # catches all three drift kinds — a modified page, a page the command tree no
+      # longer produces (a stale committed file → a deletion), and a new page a
+      # plain `git diff` would miss as untracked. The gate fails before any commit,
+      # so the staging is throwaway. Scoped to docs/cli/ so the hand-written
+      # docs/AGENTS.md is never gated.
+      - git add -A -- docs/cli
+      - git diff --cached --exit-code -- docs/cli
 
   generate:
     desc: Regenerate the typed GraphQL surface (genops then genqlient, via go:generate directives).
     cmds:
       - go generate ./...
+
+  docs:
+    desc: Regenerate the markdown CLI reference under docs/cli/ from the command tree.
+    cmds:
+      # The opt-in generator test writes docs/cli/*.md via cobra's GenMarkdownTree.
+      # Output is deterministic (DisableAutoGenTag), so a regeneration that changes a
+      # committed page means the docs drifted from the commands.
+      - GEN_CLI_DOCS=1 go test ./cmd/stashbox -run TestGenerateCLIDocs
 
   build:
     desc: Build the stash-box CLI to ./bin/stashbox.
