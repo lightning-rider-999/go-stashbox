@@ -120,7 +120,6 @@ homebrew_casks:
       - stashbox
     homepage: "https://github.com/lightning-rider-999/go-stashbox"
     description: "Go client/library & CLI for stash-box's GraphQL API (StashDB and any stash-box instance)"
-    license: "MIT"
     # Push the generated cask to the separate tap repo. The token is a PAT
     # (CI secret HOMEBREW_TAP_GITHUB_TOKEN) because the workflow's GITHUB_TOKEN
     # can't write to another repository.
