@@ -106,6 +106,45 @@ release:
   # Mark pre-release automatically for tags like v1.2.3-rc1.
   prerelease: auto
 
+# Publish a Homebrew cask to the lightning-rider-999 tap so macOS/Linux users can
+# `brew install lightning-rider-999/tap/stashbox`. A cask (not the deprecated
+# `brews:`/formula, removed-by-default in GoReleaser v2.16) wraps the prebuilt
+# release archive rather than building from source.
+homebrew_casks:
+  - name: stashbox
+    # Wrap the archives built from the `stashbox` build (see builds[].id above);
+    # a drift there is a red build, not a silent mismatch.
+    ids:
+      - stashbox
+    binaries:
+      - stashbox
+    homepage: "https://github.com/lightning-rider-999/go-stashbox"
+    description: "Go client/library & CLI for stash-box's GraphQL API (StashDB and any stash-box instance)"
+    # Push the generated cask to the separate tap repo. The token is a PAT
+    # (CI secret HOMEBREW_TAP_GITHUB_TOKEN) because the workflow's GITHUB_TOKEN
+    # can't write to another repository.
+    repository:
+      owner: lightning-rider-999
+      name: homebrew-tap
+      branch: main
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    # GoReleaser pushes the tap commit from CI (not via local git/hooks), so this
+    # author is the ONLY control over the tap commit's identity — keep it the
+    # lightning-rider-999 noreply.
+    commit_author:
+      name: lightning-rider-999
+      email: 293808812+lightning-rider-999@users.noreply.github.com
+    # Don't push the cask for prerelease tags (e.g. v1.0.0-rc1).
+    skip_upload: auto
+    # The binary isn't code-signed/notarized, so strip the quarantine xattr on
+    # install to avoid Gatekeeper blocking it on first run.
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/stashbox"]
+          end
+
 snapshot:
   # Local `--snapshot` builds get a deterministic, sortable version stamp.
   version_template: "{{ incpatch .Version }}-snapshot-{{ .ShortCommit }}"
