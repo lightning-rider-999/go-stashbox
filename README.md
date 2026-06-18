@@ -52,6 +52,19 @@ curl -sSL https://raw.githubusercontent.com/lightning-rider-999/go-stashbox/main
 curl -sSL https://raw.githubusercontent.com/lightning-rider-999/go-stashbox/main/install.sh | VERSION=v1.2.3 sh
 ```
 
+**Homebrew (macOS / Linux):**
+
+```sh
+brew install lightning-rider-999/tap/stashbox
+```
+
+The fully-qualified `owner/tap/name` auto-taps
+[`lightning-rider-999/homebrew-tap`](https://github.com/lightning-rider-999/homebrew-tap)
+and trusts that one cask, so no separate `brew tap` is needed. (Homebrew 6.0.0 —
+or 5.2.0, whichever lands first — will require explicit trust for non-official
+taps; a fully-qualified install grants it for this cask only.) The cask is
+published automatically by the release pipeline.
+
 **Manual** — download the archive for your platform from the
 [Releases page](https://github.com/lightning-rider-999/go-stashbox/releases),
 verify it against `checksums.txt`, then extract the `stashbox` binary onto your
@@ -221,6 +234,19 @@ task vuln     # govulncheck (stdlib + dependency CVEs)
 `task check`'s codegen-freshness step regenerates the typed surface and fails if
 any committed generated artifact changed, so the vendored schema and the typed
 client can never silently drift apart.
+
+## Related projects
+
+- [**go-stash**](https://github.com/lightning-rider-999/go-stash) — the sibling
+  client/library and CLI for [Stash](https://github.com/stashapp/stash)'s own
+  GraphQL API. Same agent-first shape (typed surface generated from the upstream
+  SDL, machine-readable output, frozen exit codes); where go-stashbox talks to a
+  stash-box metadata instance, go-stash drives your local Stash server.
+- [**lightning-rider-plugins**](https://github.com/lightning-rider-999/lightning-rider-plugins)
+  — a Claude Code plugin marketplace. Its stashbox plugin is a thin, skill-only
+  contract that drives this CLI from an agent: it discovers the live operation
+  surface from the installed `stashbox` binary (`stashbox catalog`) rather than a
+  snapshot that drifts.
 
 ## License
 
