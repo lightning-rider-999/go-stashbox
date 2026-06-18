@@ -92,3 +92,7 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PAT with write access to the lightning-rider-999/homebrew-tap repo,
+          # so GoReleaser can push the generated Homebrew cask there (the
+          # workflow GITHUB_TOKEN is scoped to this repo only).
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
