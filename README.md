@@ -52,6 +52,15 @@ curl -sSL https://raw.githubusercontent.com/lightning-rider-999/go-stashbox/main
 curl -sSL https://raw.githubusercontent.com/lightning-rider-999/go-stashbox/main/install.sh | VERSION=v1.2.3 sh
 ```
 
+**Homebrew (macOS / Linux):**
+
+```sh
+brew install lightning-rider-999/tap/stashbox
+```
+
+On Homebrew 6.0+ the fully-qualified `owner/tap/name` auto-taps and trusts the
+tap in one step, so no separate `brew tap` is needed.
+
 **Manual** — download the archive for your platform from the
 [Releases page](https://github.com/lightning-rider-999/go-stashbox/releases),
 verify it against `checksums.txt`, then extract the `stashbox` binary onto your
