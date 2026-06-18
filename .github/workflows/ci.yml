@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   check:
-    name: check (gofmt, build, vet, test -race, lint, tidy, codegen freshness)
+    name: check (gofmt, build, vet, test -race, lint, tidy, codegen + docs freshness)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -46,14 +46,17 @@ jobs:
           install-only: true
 
       - name: task check
-        # Full quality suite: gofmt, build, vet, test -race, lint, tidy, codegen
-        # freshness. The codegen step runs `go generate ./...`, which `go run`s
+        # Full quality suite: gofmt, build, vet, test -race, lint, tidy, codegen +
+        # docs freshness. The codegen step runs `go generate ./...`, which `go run`s
         # genops (github.com/trackness/graphql-opgen, published) and the genqlient
         # tool straight from the committed module graph — no `go get -tool`, so the
         # forced golang.org/x/tools >= v0.46.0 bump in go.mod is left intact (a
         # `go get -tool` would re-pin it to genqlient's broken v0.24.0). The
         # committed cmd/stashbox/* and stashbox/operations_gen.go must regenerate
-        # byte-identical, or the freshness git-diff fails the job.
+        # byte-identical, or the freshness git-diff fails the job. The docs step then
+        # regenerates the markdown CLI reference (GEN_CLI_DOCS=1 go test ...) and
+        # git-diffs docs/cli/, so a command-tree change with stale docs fails too.
+        # Both gates live in the Taskfile; CI enforces them by running `task check`.
         run: task check
 
   vuln:
