@@ -138,6 +138,30 @@ invokable (with a deprecation warning).
 This CLI is read-only by construction: there are no mutations, no async jobs,
 and no destructive-confirmation gate.
 
+## Driving it from Claude Code
+
+The repository ships a [Claude Code](https://claude.com/claude-code) skill at
+`.claude/skills/stashbox-query/` so an agent drives the CLI correctly instead of
+guessing field names, enum symbols, or a mutation that does not exist. It is
+**self-contained and binary-first**: it treats the installed binary's own
+self-description (`stashbox catalog`, `stashbox <cmd> --help`) as the source of
+truth, so it works whether `stashbox` is on `PATH` (Homebrew/`go install`) or
+built locally to `./bin/stashbox`.
+
+- `SKILL.md` — the orientation: the catalog-first discipline (consult
+  `stashbox catalog <Op>` before building any `--input` or choosing an enum), the
+  read-only model, the `--input` + convenience-flag and flat-filter/paging model,
+  worked recipes, and the gotchas that bite.
+- `references/contract.md` — the self-contained deep contract: the full exit-code
+  taxonomy and single-line error-envelope shape, the criterion/enum model with
+  every symbol verbatim, the output formats, and secret redaction. It depends on
+  nothing else existing.
+
+It triggers on any StashDB / stash-box lookup. For an install that has the CLI
+but not this checkout, the sibling skill-only plugin in
+[lightning-rider-plugins](https://github.com/lightning-rider-999/lightning-rider-plugins)
+serves the same contract from the marketplace.
+
 ## Library quickstart
 
 ```go
