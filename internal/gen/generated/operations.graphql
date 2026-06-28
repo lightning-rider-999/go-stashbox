@@ -39,7 +39,7 @@ query FindEdit($id: ID!) {
     id
     # @genqlient(flatten: true)
     user {
-      ...UserFields
+      ...UserPublicFields
     }
     target {
       __typename
@@ -204,7 +204,7 @@ query FindTagOrAlias($name: String!) {
 query FindUser($id: ID, $username: String) {
   # @genqlient(flatten: true)
   findUser(id: $id, username: $username) {
-    ...UserFields
+    ...UserPublicFields
   }
 }
 

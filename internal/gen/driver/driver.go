@@ -63,6 +63,48 @@ func Config() genops.Config {
 			"lives in exactly one place. Every entry is a query: go-stashbox is a",
 			"read-only client and the generator is fed a query-only schema view.",
 		},
+		SelectionVariants: selectionVariants(),
+		VariantEdges:      variantEdges(),
+	}
+}
+
+// selectionVariants defines the trimmed selections that keep the generated
+// surface usable against a live stash-box for a normal (non-moderator) account.
+// stash-box's SDL types some fields as non-null or selectable that its resolvers
+// will not actually return in every context, so the full-field selection genops
+// derives from the SDL hits a GraphQL error the schema cannot foresee. Each
+// variant omits exactly those fields, at exactly the edges that break (see
+// variantEdges); the canonical <T>Fields is unchanged everywhere else.
+//
+//   - User/Public drops the @isUserOwner fields (email, api_key, roles, …): the
+//     server resolves them only for the authenticated owner, so selecting them on
+//     any other user (a found user, an edit's submitter) is a hard "not
+//     authorized". Derived from the directive, so a newly owner-gated field
+//     upstream is excluded automatically rather than breaking the build's output.
+//   - Fingerprint/Edit drops created/updated: a SceneEdit's proposed fingerprints
+//     carry no timestamps, but the SDL types Fingerprint.created/updated as Time!,
+//     so the server returns "null which the schema does not allow". They resolve
+//     fine on a Scene's own fingerprints, which keep the canonical selection.
+func selectionVariants() map[string]map[string]genops.VariantExclude {
+	return map[string]map[string]genops.VariantExclude{
+		"User":        {"Public": {Directives: []string{"isUserOwner"}}},
+		"Fingerprint": {"Edit": {Fields: []string{"created", "updated"}}},
+	}
+}
+
+// variantEdges routes the contexts where the full selection breaks to the
+// trimmed variant. me keeps the canonical User selection (it is always the
+// authenticated owner, so the @isUserOwner fields resolve); findUser and an
+// edit's submitter are other users, so they take User/Public. The three SceneEdit
+// fingerprint edges take Fingerprint/Edit. queryUsers is moderator-only at the
+// root, so it never reaches a normal account and keeps the canonical selection.
+func variantEdges() map[string]string {
+	return map[string]string{
+		"findUser":                       "User/Public",
+		"Edit.user":                      "User/Public",
+		"SceneEdit.fingerprints":         "Fingerprint/Edit",
+		"SceneEdit.added_fingerprints":   "Fingerprint/Edit",
+		"SceneEdit.removed_fingerprints": "Fingerprint/Edit",
 	}
 }
 

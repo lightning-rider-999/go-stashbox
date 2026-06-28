@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/spf13/cobra v1.10.2
-	github.com/trackness/graphql-opgen v0.1.1
+	github.com/trackness/graphql-opgen v0.1.2
 )
 
 require (

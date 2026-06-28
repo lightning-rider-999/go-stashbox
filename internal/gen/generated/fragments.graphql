@@ -213,6 +213,16 @@ fragment FavoriteStudioSceneFields on FavoriteStudioScene {
   }
 }
 
+fragment FingerprintEditFields on Fingerprint {
+  hash
+  algorithm
+  duration
+  submissions
+  reports
+  user_submitted
+  user_reported
+}
+
 fragment FingerprintFields on Fingerprint {
   hash
   algorithm
@@ -675,11 +685,11 @@ fragment SceneEditFields on SceneEdit {
   }
   # @genqlient(flatten: true)
   added_fingerprints {
-    ...FingerprintFields
+    ...FingerprintEditFields
   }
   # @genqlient(flatten: true)
   removed_fingerprints {
-    ...FingerprintFields
+    ...FingerprintEditFields
   }
   duration
   director
@@ -709,7 +719,7 @@ fragment SceneEditFields on SceneEdit {
   }
   # @genqlient(flatten: true)
   fingerprints {
-    ...FingerprintFields
+    ...FingerprintEditFields
   }
 }
 
@@ -994,6 +1004,19 @@ fragment UserFields on User {
   # @genqlient(flatten: true)
   invite_codes {
     ...InviteKeyFields
+  }
+}
+
+fragment UserPublicFields on User {
+  id
+  name
+  # @genqlient(flatten: true)
+  vote_count {
+    ...UserVoteCountFields
+  }
+  # @genqlient(flatten: true)
+  edit_count {
+    ...UserEditCountFields
   }
 }
 

@@ -1102,12 +1102,12 @@ func (v *EditFieldsDetailsSceneEdit) GetRemoved_images() []*ImageFields {
 }
 
 // GetAdded_fingerprints returns EditFieldsDetailsSceneEdit.Added_fingerprints, and is useful for accessing the field via an interface.
-func (v *EditFieldsDetailsSceneEdit) GetAdded_fingerprints() []*FingerprintFields {
+func (v *EditFieldsDetailsSceneEdit) GetAdded_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Added_fingerprints
 }
 
 // GetRemoved_fingerprints returns EditFieldsDetailsSceneEdit.Removed_fingerprints, and is useful for accessing the field via an interface.
-func (v *EditFieldsDetailsSceneEdit) GetRemoved_fingerprints() []*FingerprintFields {
+func (v *EditFieldsDetailsSceneEdit) GetRemoved_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Removed_fingerprints
 }
 
@@ -1140,7 +1140,7 @@ func (v *EditFieldsDetailsSceneEdit) GetTags() []*TagRef { return v.SceneEditFie
 func (v *EditFieldsDetailsSceneEdit) GetImages() []*ImageFields { return v.SceneEditFields.Images }
 
 // GetFingerprints returns EditFieldsDetailsSceneEdit.Fingerprints, and is useful for accessing the field via an interface.
-func (v *EditFieldsDetailsSceneEdit) GetFingerprints() []*FingerprintFields {
+func (v *EditFieldsDetailsSceneEdit) GetFingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Fingerprints
 }
 
@@ -1198,9 +1198,9 @@ type __premarshalEditFieldsDetailsSceneEdit struct {
 
 	Removed_images []*ImageFields `json:"removed_images"`
 
-	Added_fingerprints []*FingerprintFields `json:"added_fingerprints"`
+	Added_fingerprints []*FingerprintEditFields `json:"added_fingerprints"`
 
-	Removed_fingerprints []*FingerprintFields `json:"removed_fingerprints"`
+	Removed_fingerprints []*FingerprintEditFields `json:"removed_fingerprints"`
 
 	Duration *int `json:"duration"`
 
@@ -1218,7 +1218,7 @@ type __premarshalEditFieldsDetailsSceneEdit struct {
 
 	Images []*ImageFields `json:"images"`
 
-	Fingerprints []*FingerprintFields `json:"fingerprints"`
+	Fingerprints []*FingerprintEditFields `json:"fingerprints"`
 }
 
 func (v *EditFieldsDetailsSceneEdit) MarshalJSON() ([]byte, error) {
@@ -2778,12 +2778,12 @@ func (v *EditFieldsOld_detailsSceneEdit) GetRemoved_images() []*ImageFields {
 }
 
 // GetAdded_fingerprints returns EditFieldsOld_detailsSceneEdit.Added_fingerprints, and is useful for accessing the field via an interface.
-func (v *EditFieldsOld_detailsSceneEdit) GetAdded_fingerprints() []*FingerprintFields {
+func (v *EditFieldsOld_detailsSceneEdit) GetAdded_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Added_fingerprints
 }
 
 // GetRemoved_fingerprints returns EditFieldsOld_detailsSceneEdit.Removed_fingerprints, and is useful for accessing the field via an interface.
-func (v *EditFieldsOld_detailsSceneEdit) GetRemoved_fingerprints() []*FingerprintFields {
+func (v *EditFieldsOld_detailsSceneEdit) GetRemoved_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Removed_fingerprints
 }
 
@@ -2816,7 +2816,7 @@ func (v *EditFieldsOld_detailsSceneEdit) GetTags() []*TagRef { return v.SceneEdi
 func (v *EditFieldsOld_detailsSceneEdit) GetImages() []*ImageFields { return v.SceneEditFields.Images }
 
 // GetFingerprints returns EditFieldsOld_detailsSceneEdit.Fingerprints, and is useful for accessing the field via an interface.
-func (v *EditFieldsOld_detailsSceneEdit) GetFingerprints() []*FingerprintFields {
+func (v *EditFieldsOld_detailsSceneEdit) GetFingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Fingerprints
 }
 
@@ -2874,9 +2874,9 @@ type __premarshalEditFieldsOld_detailsSceneEdit struct {
 
 	Removed_images []*ImageFields `json:"removed_images"`
 
-	Added_fingerprints []*FingerprintFields `json:"added_fingerprints"`
+	Added_fingerprints []*FingerprintEditFields `json:"added_fingerprints"`
 
-	Removed_fingerprints []*FingerprintFields `json:"removed_fingerprints"`
+	Removed_fingerprints []*FingerprintEditFields `json:"removed_fingerprints"`
 
 	Duration *int `json:"duration"`
 
@@ -2894,7 +2894,7 @@ type __premarshalEditFieldsOld_detailsSceneEdit struct {
 
 	Images []*ImageFields `json:"images"`
 
-	Fingerprints []*FingerprintFields `json:"fingerprints"`
+	Fingerprints []*FingerprintEditFields `json:"fingerprints"`
 }
 
 func (v *EditFieldsOld_detailsSceneEdit) MarshalJSON() ([]byte, error) {
@@ -5346,8 +5346,8 @@ func (v *FindDraftsResponse) GetFindDrafts() []*FindDraftsFindDraftsDraft { retu
 
 // FindEditFindEdit includes the requested fields of the GraphQL type Edit.
 type FindEditFindEdit struct {
-	Id   string      `json:"id"`
-	User *UserFields `json:"user"`
+	Id   string            `json:"id"`
+	User *UserPublicFields `json:"user"`
 	// Object being edited - null if creating a new object
 	Target      *FindEditFindEditTarget `json:"-"`
 	Target_type TargetTypeEnum          `json:"target_type"`
@@ -5380,7 +5380,7 @@ type FindEditFindEdit struct {
 func (v *FindEditFindEdit) GetId() string { return v.Id }
 
 // GetUser returns FindEditFindEdit.User, and is useful for accessing the field via an interface.
-func (v *FindEditFindEdit) GetUser() *UserFields { return v.User }
+func (v *FindEditFindEdit) GetUser() *UserPublicFields { return v.User }
 
 // GetTarget returns FindEditFindEdit.Target, and is useful for accessing the field via an interface.
 func (v *FindEditFindEdit) GetTarget() *FindEditFindEditTarget { return v.Target }
@@ -5533,7 +5533,7 @@ func (v *FindEditFindEdit) UnmarshalJSON(b []byte) error {
 type __premarshalFindEditFindEdit struct {
 	Id string `json:"id"`
 
-	User *UserFields `json:"user"`
+	User *UserPublicFields `json:"user"`
 
 	Target json.RawMessage `json:"target"`
 
@@ -6187,12 +6187,12 @@ func (v *FindEditFindEditDetailsSceneEdit) GetRemoved_images() []*ImageFields {
 }
 
 // GetAdded_fingerprints returns FindEditFindEditDetailsSceneEdit.Added_fingerprints, and is useful for accessing the field via an interface.
-func (v *FindEditFindEditDetailsSceneEdit) GetAdded_fingerprints() []*FingerprintFields {
+func (v *FindEditFindEditDetailsSceneEdit) GetAdded_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Added_fingerprints
 }
 
 // GetRemoved_fingerprints returns FindEditFindEditDetailsSceneEdit.Removed_fingerprints, and is useful for accessing the field via an interface.
-func (v *FindEditFindEditDetailsSceneEdit) GetRemoved_fingerprints() []*FingerprintFields {
+func (v *FindEditFindEditDetailsSceneEdit) GetRemoved_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Removed_fingerprints
 }
 
@@ -6227,7 +6227,7 @@ func (v *FindEditFindEditDetailsSceneEdit) GetImages() []*ImageFields {
 }
 
 // GetFingerprints returns FindEditFindEditDetailsSceneEdit.Fingerprints, and is useful for accessing the field via an interface.
-func (v *FindEditFindEditDetailsSceneEdit) GetFingerprints() []*FingerprintFields {
+func (v *FindEditFindEditDetailsSceneEdit) GetFingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Fingerprints
 }
 
@@ -6285,9 +6285,9 @@ type __premarshalFindEditFindEditDetailsSceneEdit struct {
 
 	Removed_images []*ImageFields `json:"removed_images"`
 
-	Added_fingerprints []*FingerprintFields `json:"added_fingerprints"`
+	Added_fingerprints []*FingerprintEditFields `json:"added_fingerprints"`
 
-	Removed_fingerprints []*FingerprintFields `json:"removed_fingerprints"`
+	Removed_fingerprints []*FingerprintEditFields `json:"removed_fingerprints"`
 
 	Duration *int `json:"duration"`
 
@@ -6305,7 +6305,7 @@ type __premarshalFindEditFindEditDetailsSceneEdit struct {
 
 	Images []*ImageFields `json:"images"`
 
-	Fingerprints []*FingerprintFields `json:"fingerprints"`
+	Fingerprints []*FingerprintEditFields `json:"fingerprints"`
 }
 
 func (v *FindEditFindEditDetailsSceneEdit) MarshalJSON() ([]byte, error) {
@@ -7913,12 +7913,12 @@ func (v *FindEditFindEditOld_detailsSceneEdit) GetRemoved_images() []*ImageField
 }
 
 // GetAdded_fingerprints returns FindEditFindEditOld_detailsSceneEdit.Added_fingerprints, and is useful for accessing the field via an interface.
-func (v *FindEditFindEditOld_detailsSceneEdit) GetAdded_fingerprints() []*FingerprintFields {
+func (v *FindEditFindEditOld_detailsSceneEdit) GetAdded_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Added_fingerprints
 }
 
 // GetRemoved_fingerprints returns FindEditFindEditOld_detailsSceneEdit.Removed_fingerprints, and is useful for accessing the field via an interface.
-func (v *FindEditFindEditOld_detailsSceneEdit) GetRemoved_fingerprints() []*FingerprintFields {
+func (v *FindEditFindEditOld_detailsSceneEdit) GetRemoved_fingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Removed_fingerprints
 }
 
@@ -7957,7 +7957,7 @@ func (v *FindEditFindEditOld_detailsSceneEdit) GetImages() []*ImageFields {
 }
 
 // GetFingerprints returns FindEditFindEditOld_detailsSceneEdit.Fingerprints, and is useful for accessing the field via an interface.
-func (v *FindEditFindEditOld_detailsSceneEdit) GetFingerprints() []*FingerprintFields {
+func (v *FindEditFindEditOld_detailsSceneEdit) GetFingerprints() []*FingerprintEditFields {
 	return v.SceneEditFields.Fingerprints
 }
 
@@ -8015,9 +8015,9 @@ type __premarshalFindEditFindEditOld_detailsSceneEdit struct {
 
 	Removed_images []*ImageFields `json:"removed_images"`
 
-	Added_fingerprints []*FingerprintFields `json:"added_fingerprints"`
+	Added_fingerprints []*FingerprintEditFields `json:"added_fingerprints"`
 
-	Removed_fingerprints []*FingerprintFields `json:"removed_fingerprints"`
+	Removed_fingerprints []*FingerprintEditFields `json:"removed_fingerprints"`
 
 	Duration *int `json:"duration"`
 
@@ -8035,7 +8035,7 @@ type __premarshalFindEditFindEditOld_detailsSceneEdit struct {
 
 	Images []*ImageFields `json:"images"`
 
-	Fingerprints []*FingerprintFields `json:"fingerprints"`
+	Fingerprints []*FingerprintEditFields `json:"fingerprints"`
 }
 
 func (v *FindEditFindEditOld_detailsSceneEdit) MarshalJSON() ([]byte, error) {
@@ -9233,11 +9233,11 @@ func (v *FindTagResponse) GetFindTag() *TagFields { return v.FindTag }
 // FindUserResponse is returned by FindUser on success.
 type FindUserResponse struct {
 	// Find user by ID or username
-	FindUser *UserFields `json:"findUser"`
+	FindUser *UserPublicFields `json:"findUser"`
 }
 
 // GetFindUser returns FindUserResponse.FindUser, and is useful for accessing the field via an interface.
-func (v *FindUserResponse) GetFindUser() *UserFields { return v.FindUser }
+func (v *FindUserResponse) GetFindUser() *UserPublicFields { return v.FindUser }
 
 type FingerprintAlgorithm string
 
@@ -9353,6 +9353,42 @@ type FingerprintClustersResponse struct {
 func (v *FingerprintClustersResponse) GetFingerprintClusters() *FingerprintClustersFingerprintClustersFingerprintClustersResult {
 	return v.FingerprintClusters
 }
+
+// FingerprintEditFields includes the GraphQL fields of Fingerprint requested by the fragment FingerprintEditFields.
+type FingerprintEditFields struct {
+	Hash      string               `json:"hash"`
+	Algorithm FingerprintAlgorithm `json:"algorithm"`
+	Duration  int                  `json:"duration"`
+	// number of times this fingerprint has been submitted (excluding reports)
+	Submissions int `json:"submissions"`
+	// number of times this fingerprint has been reported
+	Reports int `json:"reports"`
+	// true if the current user submitted this fingerprint
+	User_submitted bool `json:"user_submitted"`
+	// true if the current user reported this fingerprint
+	User_reported bool `json:"user_reported"`
+}
+
+// GetHash returns FingerprintEditFields.Hash, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetHash() string { return v.Hash }
+
+// GetAlgorithm returns FingerprintEditFields.Algorithm, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetAlgorithm() FingerprintAlgorithm { return v.Algorithm }
+
+// GetDuration returns FingerprintEditFields.Duration, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetDuration() int { return v.Duration }
+
+// GetSubmissions returns FingerprintEditFields.Submissions, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetSubmissions() int { return v.Submissions }
+
+// GetReports returns FingerprintEditFields.Reports, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetReports() int { return v.Reports }
+
+// GetUser_submitted returns FingerprintEditFields.User_submitted, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetUser_submitted() bool { return v.User_submitted }
+
+// GetUser_reported returns FingerprintEditFields.User_reported, and is useful for accessing the field via an interface.
+func (v *FingerprintEditFields) GetUser_reported() bool { return v.User_reported }
 
 // FingerprintFields includes the GraphQL fields of Fingerprint requested by the fragment FingerprintFields.
 type FingerprintFields struct {
@@ -12978,8 +13014,8 @@ type SceneEditFields struct {
 	Removed_tags         []*TagRef                                               `json:"removed_tags"`
 	Added_images         []*ImageFields                                          `json:"added_images"`
 	Removed_images       []*ImageFields                                          `json:"removed_images"`
-	Added_fingerprints   []*FingerprintFields                                    `json:"added_fingerprints"`
-	Removed_fingerprints []*FingerprintFields                                    `json:"removed_fingerprints"`
+	Added_fingerprints   []*FingerprintEditFields                                `json:"added_fingerprints"`
+	Removed_fingerprints []*FingerprintEditFields                                `json:"removed_fingerprints"`
 	Duration             *int                                                    `json:"duration"`
 	Director             *string                                                 `json:"director"`
 	Code                 *string                                                 `json:"code"`
@@ -12988,7 +13024,7 @@ type SceneEditFields struct {
 	Performers           []*SceneEditFieldsPerformersPerformerAppearance         `json:"performers"`
 	Tags                 []*TagRef                                               `json:"tags"`
 	Images               []*ImageFields                                          `json:"images"`
-	Fingerprints         []*FingerprintFields                                    `json:"fingerprints"`
+	Fingerprints         []*FingerprintEditFields                                `json:"fingerprints"`
 }
 
 // GetTitle returns SceneEditFields.Title, and is useful for accessing the field via an interface.
@@ -13035,10 +13071,12 @@ func (v *SceneEditFields) GetAdded_images() []*ImageFields { return v.Added_imag
 func (v *SceneEditFields) GetRemoved_images() []*ImageFields { return v.Removed_images }
 
 // GetAdded_fingerprints returns SceneEditFields.Added_fingerprints, and is useful for accessing the field via an interface.
-func (v *SceneEditFields) GetAdded_fingerprints() []*FingerprintFields { return v.Added_fingerprints }
+func (v *SceneEditFields) GetAdded_fingerprints() []*FingerprintEditFields {
+	return v.Added_fingerprints
+}
 
 // GetRemoved_fingerprints returns SceneEditFields.Removed_fingerprints, and is useful for accessing the field via an interface.
-func (v *SceneEditFields) GetRemoved_fingerprints() []*FingerprintFields {
+func (v *SceneEditFields) GetRemoved_fingerprints() []*FingerprintEditFields {
 	return v.Removed_fingerprints
 }
 
@@ -13069,7 +13107,7 @@ func (v *SceneEditFields) GetTags() []*TagRef { return v.Tags }
 func (v *SceneEditFields) GetImages() []*ImageFields { return v.Images }
 
 // GetFingerprints returns SceneEditFields.Fingerprints, and is useful for accessing the field via an interface.
-func (v *SceneEditFields) GetFingerprints() []*FingerprintFields { return v.Fingerprints }
+func (v *SceneEditFields) GetFingerprints() []*FingerprintEditFields { return v.Fingerprints }
 
 // SceneEditFieldsAdded_performersPerformerAppearance includes the requested fields of the GraphQL type PerformerAppearance.
 type SceneEditFieldsAdded_performersPerformerAppearance struct {
@@ -14250,6 +14288,28 @@ func (v *UserFields) GetInvite_tokens() *int { return v.Invite_tokens }
 // GetInvite_codes returns UserFields.Invite_codes, and is useful for accessing the field via an interface.
 func (v *UserFields) GetInvite_codes() []*InviteKeyFields { return v.Invite_codes }
 
+// UserPublicFields includes the GraphQL fields of User requested by the fragment UserPublicFields.
+type UserPublicFields struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+	// Vote counts by type
+	Vote_count *UserVoteCountFields `json:"vote_count"`
+	// Edit counts by status
+	Edit_count *UserEditCountFields `json:"edit_count"`
+}
+
+// GetId returns UserPublicFields.Id, and is useful for accessing the field via an interface.
+func (v *UserPublicFields) GetId() string { return v.Id }
+
+// GetName returns UserPublicFields.Name, and is useful for accessing the field via an interface.
+func (v *UserPublicFields) GetName() string { return v.Name }
+
+// GetVote_count returns UserPublicFields.Vote_count, and is useful for accessing the field via an interface.
+func (v *UserPublicFields) GetVote_count() *UserVoteCountFields { return v.Vote_count }
+
+// GetEdit_count returns UserPublicFields.Edit_count, and is useful for accessing the field via an interface.
+func (v *UserPublicFields) GetEdit_count() *UserEditCountFields { return v.Edit_count }
+
 type UserQueryInput struct {
 	// Filter to search user name - assumes like query unless quoted
 	Name *string `json:"name"`
@@ -15335,10 +15395,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -15363,7 +15423,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -15431,6 +15491,15 @@ fragment FingerprintFields on Fingerprint {
 	reports
 	created
 	updated
+	user_submitted
+	user_reported
+}
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
 	user_submitted
 	user_reported
 }
@@ -16059,10 +16128,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -16087,7 +16156,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -16158,6 +16227,15 @@ fragment FingerprintFields on Fingerprint {
 	user_submitted
 	user_reported
 }
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
+	user_submitted
+	user_reported
+}
 `
 
 func FindDrafts(
@@ -16187,7 +16265,7 @@ query FindEdit ($id: ID!) {
 	findEdit(id: $id) {
 		id
 		user {
-			... UserFields
+			... UserPublicFields
 		}
 		target {
 			__typename
@@ -16281,26 +16359,14 @@ query FindEdit ($id: ID!) {
 		expires
 	}
 }
-fragment UserFields on User {
+fragment UserPublicFields on User {
 	id
 	name
-	roles
-	email
-	api_key
-	notification_subscriptions
 	vote_count {
 		... UserVoteCountFields
 	}
 	edit_count {
 		... UserEditCountFields
-	}
-	api_calls
-	invited_by {
-		... UserRef
-	}
-	invite_tokens
-	invite_codes {
-		... InviteKeyFields
 	}
 }
 fragment PerformerFields on Performer {
@@ -16593,10 +16659,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -16621,7 +16687,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -16700,11 +16766,6 @@ fragment UserEditCountFields on UserEditCount {
 	failed_bot
 	canceled_bot
 }
-fragment InviteKeyFields on InviteKey {
-	id
-	uses
-	expires
-}
 fragment SiteRef on Site {
 	id
 	name
@@ -16749,6 +16810,15 @@ fragment FingerprintFields on Fingerprint {
 fragment TagCategoryRef on TagCategory {
 	id
 	name
+}
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
+	user_submitted
+	user_reported
 }
 `
 
@@ -17489,29 +17559,17 @@ func FindTagOrAlias(
 const FindUser_Operation = `
 query FindUser ($id: ID, $username: String) {
 	findUser(id: $id, username: $username) {
-		... UserFields
+		... UserPublicFields
 	}
 }
-fragment UserFields on User {
+fragment UserPublicFields on User {
 	id
 	name
-	roles
-	email
-	api_key
-	notification_subscriptions
 	vote_count {
 		... UserVoteCountFields
 	}
 	edit_count {
 		... UserEditCountFields
-	}
-	api_calls
-	invited_by {
-		... UserRef
-	}
-	invite_tokens
-	invite_codes {
-		... InviteKeyFields
 	}
 }
 fragment UserVoteCountFields on UserVoteCount {
@@ -17536,15 +17594,6 @@ fragment UserEditCountFields on UserEditCount {
 	immediate_rejected_bot
 	failed_bot
 	canceled_bot
-}
-fragment UserRef on User {
-	id
-	name
-}
-fragment InviteKeyFields on InviteKey {
-	id
-	uses
-	expires
 }
 `
 
@@ -18196,10 +18245,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -18224,7 +18273,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -18320,6 +18369,15 @@ fragment FingerprintFields on Fingerprint {
 fragment TagCategoryRef on TagCategory {
 	id
 	name
+}
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
+	user_submitted
+	user_reported
 }
 `
 
@@ -18750,10 +18808,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -18778,7 +18836,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -18874,6 +18932,15 @@ fragment FingerprintFields on Fingerprint {
 fragment TagCategoryRef on TagCategory {
 	id
 	name
+}
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
+	user_submitted
+	user_reported
 }
 `
 
@@ -19304,10 +19371,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -19332,7 +19399,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -19428,6 +19495,15 @@ fragment SceneRef on Scene {
 fragment TagCategoryRef on TagCategory {
 	id
 	name
+}
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
+	user_submitted
+	user_reported
 }
 `
 
@@ -20044,10 +20120,10 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	added_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	removed_fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 	duration
 	director
@@ -20072,7 +20148,7 @@ fragment SceneEditFields on SceneEdit {
 		... ImageFields
 	}
 	fingerprints {
-		... FingerprintFields
+		... FingerprintEditFields
 	}
 }
 fragment StudioEditFields on StudioEdit {
@@ -20164,6 +20240,15 @@ fragment FingerprintFields on Fingerprint {
 fragment TagCategoryRef on TagCategory {
 	id
 	name
+}
+fragment FingerprintEditFields on Fingerprint {
+	hash
+	algorithm
+	duration
+	submissions
+	reports
+	user_submitted
+	user_reported
 }
 `
 
